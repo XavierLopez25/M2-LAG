@@ -1,0 +1,19 @@
+let letter = [a-zA-Z]
+let digit = [0-9]
+let identifier = letter (letter | digit)*
+let number = digit+
+let string = "\"" (letter | digit | " ")* "\""
+
+rule tokens =
+    identifier $ { return ID }
+    number $ { return NUMBER }
+    string $ { return STRING }
+    "true" $ { return TRUE }
+    "false" $ { return FALSE }
+    "and" $ { return AND }
+    "or" $ { return OR }
+    "not" $ { return NOT }
+    "print" $ { return PRINT }
+    "{" $ { return LBRACE }
+    "}" $ { return RBRACE }
+    ";" $ { return SEMICOLON }

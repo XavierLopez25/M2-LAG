@@ -1,0 +1,28 @@
+let letter = [a-zA-Z]
+let digit = [0-9]
+let identifier = letter (letter | digit)*
+let number = digit+
+let whitespace = " " | "\t" | "\n"
+let comment =\#.*\n
+
+
+rule tokens =
+    identifier $ { return ID }
+    number $ { return NUMBER }
+    "if" $ { return IF }
+    "else" $ { return ELSE }
+    "while" $ { return WHILE }
+    "==" $ { return EQUALS }
+    "!=" $ { return NOTEQUAL }
+    "<" $ { return LESS }
+    ">" $ { return GREATER }
+    "<=" $ { return LESSEQ }
+    ">=" $ { return GREATEREQ }
+    "+" $ { return PLUS }
+    "-" $ { return MINUS }
+    "*" $ { return TIMES }
+    "/" $ { return DIVIDE }
+    "\(" $ { return LPAREN }
+    "\)" $ { return RPAREN }
+    whitespace $ { return WHITESPACE }
+    comment $ { return COMMENT }
