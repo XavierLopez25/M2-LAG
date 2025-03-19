@@ -40,11 +40,20 @@ def tokenize(regex: str):
             token_value = "[" + bracket_content + "]"
             tokens.append(("BRACKET", token_value))
             i = j  # se ubicará en el ']' y luego se incrementa
+        elif char == '~':  
+            # Capturar todo el TOKEN después del `#`
+            j = i + 1
+            token_name = "~"
+            while j < len(regex) and regex[j].isalnum():
+                token_name += regex[j]
+                j += 1
+            tokens.append(("TOKEN", token_name))
+            i = j - 1
         elif char in {'(', ')'}:
             tokens.append(("PAREN", char))
         elif char in OPERADORES:
             tokens.append(("OPERATOR", char))
-        else:
+        elif char not in {'$', '"'}:
             tokens.append(("LITERAL", char))
         i += 1
     return tokens
@@ -90,6 +99,13 @@ def infix_a_postfix_tokens(tokens):
         token_type, token_value = token
         if token_type in ["LITERAL", "BRACKET"]:
             salida.append(token)
+        
+        elif token_type == "TOKEN":
+            if not salida:
+                raise ValueError("Error: `TOKEN` sin expresión asociada.")
+            salida.append(("OPERATOR", "."))  
+            salida.append(token)
+
         elif token_type == "OPERATOR":
             while pila and pila[-1][0] == "OPERATOR":
                 top_op = pila[-1][1]
@@ -107,7 +123,7 @@ def infix_a_postfix_tokens(tokens):
                     salida.append(pila.pop())
                 if not pila:
                     raise ValueError("Error: Paréntesis no balanceados.")
-                pila.pop()  # descartar el '('
+                pila.pop()  
         else:
             raise ValueError(f"Token desconocido: {token}")
     while pila:
