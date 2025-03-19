@@ -8,7 +8,7 @@ def combine_rules(rules):
     """
     Combina todas las reglas en una única expresión regular usando el operador '|'.
     Para cada regla, se encapsula la regex (quitándole el '$' final, si existe) y se le
-    añade un marcador (por ejemplo, '#TOKEN') que luego se usará para etiquetar el estado
+    añade un marcador (por ejemplo, '~TOKEN') que luego se usará para etiquetar el estado
     de aceptación correspondiente. Finalmente, se añade un único '$' al final.
     """
     combined = []
@@ -16,8 +16,17 @@ def combine_rules(rules):
         # Quitar el '$' final si está presente
         if regex.endswith('$'):
             regex = regex[:-1].strip()
-        # Encapsular la regex y agregar el marcador de token.
+        
+        # Si la expresión está entre comillas, quitarlas para tratarla como literal
+        if regex.startswith('"') and regex.endswith('"'):
+            regex = regex[1:-1]
+            # Opcional: Si se quiere asegurar que se trate como literal, se puede envolver en corchetes
+            regex = f"[{regex}]"
+        
+        # Encapsular la regex en paréntesis para que siempre sea una expresión válida
+        regex = f"({regex})"
         combined.append(f"{regex}~{token}")
+    
     # Unir todas las alternativas con '|' y agregar '$' al final
     return "(" + "|".join(combined) + ")$"
 

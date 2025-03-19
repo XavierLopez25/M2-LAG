@@ -9,18 +9,26 @@ OPERADORES = {'|', '.', '*', '+'}
 class Nodo:
     def __init__(self, valor, token_type=None, izquierdo=None, derecho=None):
         self.valor = valor          # El símbolo (literal, clase o operador)
-        self.token_type = token_type  # "LITERAL", "BRACKET" o "OPERATOR"
+        self.token_type = token_type  # "LITERAL", "BRACKET", "OPERATOR" o "TOKEN"
         self.izquierdo = izquierdo
         self.derecho = derecho
+        
+        # Atributos para la construcción del DFA
+        self.nullable = False       # Indica si el nodo puede generar la cadena vacía
+        self.firstpos = set()       # Conjunto de posiciones iniciales
+        self.lastpos = set()        # Conjunto de posiciones finales
 
     def __str__(self):
-        # Representación sencilla para depuración.
         if self.izquierdo is None and self.derecho is None:
             return self.valor
+        elif self.izquierdo is not None and self.derecho is None:
+            # Por ejemplo, para los nodos TOKEN que solo tienen hijo izquierdo.
+            return f"({str(self.izquierdo)}{self.valor})"
         elif self.token_type == "OPERATOR" and self.valor in ["*", "+"]:
             return f"({str(self.izquierdo)}{self.valor})"
         else:
             return f"({str(self.izquierdo)}{self.valor}{str(self.derecho)})"
+
 
 def expand_bracket(bracket_value: str) -> Nodo:
     """
@@ -71,6 +79,13 @@ def postfix_a_arbol_sintactico(postfix_tokens: list) -> Nodo:
         elif token_type == "BRACKET":
             nodo_bracket = expand_bracket(token_value)
             pila.append(nodo_bracket)
+        elif token_type == "TOKEN":
+            if not pila:
+                raise ValueError(f"Error: `TOKEN` {token_value} sin expresión asociada.")
+            expr = pila.pop()  # Extraer la expresión a la que se asocia el TOKEN
+            nodo_token = Nodo(token_value, "TOKEN", izquierdo=expr)
+            pila.append(nodo_token)
+            
         elif token_type == "OPERATOR":
             if token_value == '*':
                 if not pila:
