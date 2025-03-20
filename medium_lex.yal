@@ -2,9 +2,10 @@ let letter = [a-zA-Z]
 let digit = [0-9]
 let identifier = letter (letter | digit)*
 let number = digit+
-let string = "\"" (letter | digit | " ")* "\""
+let string = "\"" . (letter | digit | " ")* . "\""
 
 rule tokens =
+    [ \t\n]+    { /* se ignoran los espacios en blanco */ }
     identifier $ { return ID }
     number $ { return NUMBER }
     string $ { return STRING }
@@ -14,6 +15,7 @@ rule tokens =
     "or" $ { return OR }
     "not" $ { return NOT }
     "print" $ { return PRINT }
-    "{" $ { return LBRACE }
-    "}" $ { return RBRACE }
+    "(" $ { return LPAREN }
+    ")" $ { return RPAREN }
+    "=" $ { return EQUALS }
     ";" $ { return SEMICOLON }

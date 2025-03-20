@@ -5,36 +5,80 @@ from dfaGenerator.directConstructionDFA.astToDFA import direct_dfa_from_ast
 from dfaGenerator.minimizeDFA.AFDtoMinimizedAFD import minimize_dfa
 import re
 
-def remove_spaces_outside_literals(s):
+def is_escaped(s: str, pos: int) -> bool:
     """
-    Elimina espacios (y otros espacios en blanco, como tabulaciones y saltos de línea)
-    de la cadena s, pero preserva los espacios que se encuentren dentro de literales 
-    delimitados por comillas dobles.
-    
-    Ejemplo:
-      Entrada: 'let string = "\"" (letter | digit)* "\""'  
-      Salida: 'letstring="\"" (letter|digit)* "\""'  
-      
-    Nota: Este ejemplo asume que las comillas dobles aparecen de forma balanceada.
+    Devuelve True si el carácter en la posición pos está escapado,
+    es decir, precedido por un número impar de barras invertidas.
     """
-    result = []
-    in_literal = False
-    for char in s:
-        if char == '"':
-            # Al encontrar una comilla doble, se agrega y se cambia el estado.
-            result.append(char)
-            in_literal = not in_literal
+    count = 0
+    pos -= 1
+    while pos >= 0 and s[pos] == '\\':
+        count += 1
+        pos -= 1
+    return (count % 2) == 1
+
+def tokenize_regex_str(s: str) -> list:
+    """
+    Tokeniza la cadena de la expresión regular.
+    Retorna una lista de tuplas (tipo, valor) donde:
+      - "QUOTED": literal entre comillas (se preservan espacios y escapes).
+      - "CLASS": contenido entre corchetes [].
+      - "OP": símbolos considerados operadores (como (), |, ., *, +, ? o ~, etc.)
+      - "LITERAL": secuencia de caracteres sin espacios ni operadores especiales.
+    Se omiten los espacios que estén fuera de literales o clases.
+    """
+    tokens = []
+    i = 0
+    while i < len(s):
+        # Omitir espacios fuera de tokens
+        if s[i].isspace():
+            i += 1
+            continue
+
+        if s[i] == '"':
+            # Token QUOTED: leer hasta la comilla de cierre que no esté escapada
+            token_val = s[i]  # incluir la comilla de apertura
+            i += 1
+            while i < len(s):
+                token_val += s[i]
+                if s[i] == '"' and not is_escaped(s, i):
+                    i += 1
+                    break
+                i += 1
+            tokens.append(("QUOTED", token_val))
+        elif s[i] == '[':
+            # Token CLASS: leer hasta el cierre de ]
+            token_val = s[i]
+            i += 1
+            while i < len(s) and s[i] != ']':
+                token_val += s[i]
+                i += 1
+            if i < len(s) and s[i] == ']':
+                token_val += s[i]
+                i += 1
+            tokens.append(("CLASS", token_val))
+        elif s[i] in '()|.*+?~\\':
+            # Token de operador (se tratan individualmente)
+            tokens.append(("OP", s[i]))
+            i += 1
         else:
-            # Si estamos dentro de un literal, se agrega tal cual.
-            if in_literal:
-                result.append(char)
-            else:
-                # Fuera de un literal, se ignoran espacios, tabulaciones y saltos de línea.
-                if char in [' ', '\t', '\n']:
-                    continue
-                else:
-                    result.append(char)
-    return "".join(result)
+            # Acumular caracteres que no son espacios, comillas, corchetes ni operadores
+            literal_val = ''
+            while i < len(s) and (not s[i].isspace()) and s[i] not in '"[]()|.*+?~\\':
+                literal_val += s[i]
+                i += 1
+            if literal_val:
+                tokens.append(("LITERAL", literal_val))
+    return tokens
+
+def preprocess_regex(s: str) -> str:
+    """
+    Reensambla la expresión regular a partir de los tokens, eliminando los espacios
+    que estén fuera de literales (QUOTED) y clases (CLASS).
+    """
+    tokens = tokenize_regex_str(s)
+    return "".join(token_val for token_type, token_val in tokens)
+
 
 def scan_input(transitions, initial, accepting, input_str):
     """
@@ -50,7 +94,7 @@ def scan_input(transitions, initial, accepting, input_str):
       la última posición en la que el estado fue aceptante.
     Devuelve una lista de tokens (en este ejemplo, simplemente las subcadenas).
     """
-    # Se añade '$' para el análisis interno, pero luego se ignora.
+    # Asegurarse de que la cadena termine con el símbolo terminal
     if not input_str.endswith('$'):
         input_str += '$'
     
@@ -58,18 +102,21 @@ def scan_input(transitions, initial, accepting, input_str):
     pos = 0
     n = len(input_str)
     
-    # La última posición (con '$') no se procesa como parte del lexema.
     while pos < n - 1:
+        # Omitir espacios en blanco fuera de literales
+        while pos < n - 1 and input_str[pos].isspace():
+            pos += 1
+        if pos >= n - 1:
+            break
+        
         current_state = initial
         last_accept_pos = -1  # posición del último carácter aceptado
         current_pos = pos
         
         while current_pos < n:
             char = input_str[current_pos]
-            # Si llegamos al final (símbolo terminal) y ya hemos reconocido token, salimos.
             if char == '$' and current_pos == n - 1:
                 break
-
             if char in transitions.get(current_state, {}):
                 current_state = transitions[current_state][char]
                 current_pos += 1
@@ -104,21 +151,19 @@ def combine_rules(rules):
         else:
             regex = regex.strip()
         
-        # Si la regla es un literal puro (empieza y termina con comillas), no se le quitan espacios
-        if regex.startswith('"') and regex.endswith('"'):
-            # Removemos las comillas y escapamos el literal
+        # Para reglas literales puras (empiezan y terminan con comillas y sin espacios internos)
+        if regex.startswith('"') and regex.endswith('"') and ' ' not in regex[1:-1]:
             literal = regex[1:-1]
-            regex = re.escape(literal)
+            processed_regex = re.escape(literal)
         else:
-            # En reglas compuestas, eliminamos espacios solo fuera de literales
-            regex = remove_spaces_outside_literals(regex)
+            processed_regex = preprocess_regex(regex)
         
-        combined.append(f"({regex})~{token}")
+        combined.append(f"({processed_regex})~{token}")
     
-    return "(" + "|".join(combined) + ")$"
+    return "(" + "|".join(combined) + ").$"
 
 def main():
-    yalex_file = "easy_lex.yal"
+    yalex_file = "hard_lex.yal"
     rules = parse_yalex(yalex_file)
 
     print("\nReglas extraídas:")
@@ -191,15 +236,18 @@ def main():
     # print("Estados finales:", final_dfa["accepting"])
 
     # Simulación: se pide la cadena completa y se escanean los tokens
-    input_str = input("\nIngrese la cadena completa a simular (sin dividir en tokens): ")
-    tokens = scan_input(final_dfa["transitions"], final_dfa["initial"], final_dfa["accepting"], input_str)
-    
-    if tokens is not None:
-        print("\nTokens reconocidos:")
-        for t in tokens:
-            print(f"  {t}")
-    else:
-        print("Error en el análisis léxico.")
+    while True:
+        input_str = input("\nIngrese la cadena completa a simular (sin dividir en tokens): ")
+        if input_str.lower() == "exit":
+            break
+        tokens = scan_input(final_dfa["transitions"], final_dfa["initial"], final_dfa["accepting"], input_str)
+        if tokens is not None:
+            print("\nTokens reconocidos:")
+            for t in tokens:
+                print(f"  {t}")
+        else:
+            print("Error en el análisis léxico.")
+
 
 
 
