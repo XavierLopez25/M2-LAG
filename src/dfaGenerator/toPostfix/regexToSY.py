@@ -22,11 +22,10 @@ def tokenize(regex: str):
             i += 1
             if i >= len(regex):
                 raise ValueError("Secuencia de escape incompleta.")
-            # Se guarda el carácter escapado como LITERAL.
             tokens.append(("LITERAL", regex[i]))
             last_token_was_expression = True
+
         elif char == '[':
-            # Reconocer clase de caracteres o rango.
             j = i + 1
             bracket_content = ""
             while j < len(regex) and regex[j] != ']':
@@ -42,32 +41,36 @@ def tokenize(regex: str):
                 raise ValueError("Expresión de clase de caracteres sin cerrar.")
             token_value = "[" + bracket_content + "]"
             tokens.append(("BRACKET", token_value))
-            last_token_was_expression = True  # Se marca que se encontró una expresión.
-            i = j  # se ubicará en el ']' y luego se incrementa
-        elif char == '~':  # Identificadores de `TOKEN` (~NUMBER, ~PLUS, etc.)
+            last_token_was_expression = True
+            i = j
+
+        elif char == '~':
             if not last_token_was_expression:
                 raise ValueError(f"Error: `TOKEN` sin expresión previa en {regex}.")
-            
             j = i + 1
             token_name = ""
             while j < len(regex) and regex[j].isalnum():
                 token_name += regex[j]
                 j += 1
             tokens.append(("TOKEN", "~" + token_name))
-            last_token_was_expression = False  # Un TOKEN no es un operando, solo etiqueta el previo.
-            i = j - 1  
+            last_token_was_expression = False
+            i = j - 1
+
         elif char in {'(', ')'}:
             tokens.append(("PAREN", char))
             if char == ')':
-                last_token_was_expression = True  # Al cerrar paréntesis se reconoce una expresión.
+                last_token_was_expression = True
             else:
                 last_token_was_expression = False
+
         elif char in OPERADORES:
             tokens.append(("OPERATOR", char))
             last_token_was_expression = False
-        elif char != '"':
+
+        elif char not in {'"'}:  # Ahora NO se ignora '$'
             tokens.append(("LITERAL", char))
             last_token_was_expression = True
+        
         i += 1
     return tokens
 

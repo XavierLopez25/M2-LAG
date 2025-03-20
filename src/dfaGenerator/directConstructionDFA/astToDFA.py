@@ -39,6 +39,11 @@ def compute_functions(node, pos_counter, pos_dict):
         compute_functions(node.izquierdo, pos_counter, pos_dict)
     if node.derecho:
         compute_functions(node.derecho, pos_counter, pos_dict)
+    if node.token_type == "TOKEN":
+        # Propagar los atributos del hijo izquierdo (que contiene la expresión)
+        node.nullable = node.izquierdo.nullable
+        node.firstpos = node.izquierdo.firstpos
+        node.lastpos = node.izquierdo.lastpos
 
     # Calcular según el operador del nodo
     if node.token_type == "OPERATOR":

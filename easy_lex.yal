@@ -5,5 +5,5 @@ rule tokens =
     number $ { return NUMBER }
     "+" $ { return PLUS }
     "*" $ { return TIMES }
-    "\(" $ { return LPAREN }
-    "\)" $ { return RPAREN }
+    "(" $ { return LPAREN }
+    ")" $ { return RPAREN }
