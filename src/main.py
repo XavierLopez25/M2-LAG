@@ -3,6 +3,7 @@ from dfaGenerator.toPostfix.regexToSY import infix_a_postfix
 from dfaGenerator.toAST.syToSyntaxTree import postfix_a_arbol_sintactico
 from dfaGenerator.directConstructionDFA.astToDFA import direct_dfa_from_ast
 from dfaGenerator.minimizeDFA.AFDtoMinimizedAFD import minimize_dfa
+from symbolTable.symbolTableGenerator import SymbolTable
 import re
 
 def is_escaped(s: str, pos: int) -> bool:
@@ -80,7 +81,7 @@ def preprocess_regex(s: str) -> str:
     return "".join(token_val for token_type, token_val in tokens)
 
 
-def scan_input(transitions, initial, accepting, input_str):
+def scan_input(transitions, initial, accepting, input_str, symbol_table):
     """
     Simula el análisis de una cadena completa utilizando el DFA.
 
@@ -101,11 +102,15 @@ def scan_input(transitions, initial, accepting, input_str):
     tokens = []
     pos = 0
     n = len(input_str)
+    linea = 1
     
     while pos < n - 1:
         # Omitir espacios en blanco fuera de literales
         while pos < n - 1 and input_str[pos].isspace():
+            if input_str[pos] == '\n':
+                linea += 1
             pos += 1
+
         if pos >= n - 1:
             break
         
@@ -131,6 +136,12 @@ def scan_input(transitions, initial, accepting, input_str):
         
         token_lexeme = input_str[pos:last_accept_pos]
         tokens.append(token_lexeme)
+
+        # Guardar en tabla si es identificador válido
+        if token_lexeme and token_lexeme[0].isalpha():
+            symbol_table.add(token_lexeme, linea)
+
+        linea += token_lexeme.count('\n') 
         pos = last_accept_pos
     
     return tokens
@@ -204,14 +215,14 @@ def main():
             converted_transitions[int_state][sym] = dfa_states[next_state]
     # print("Debug - converted_transitions:", converted_transitions)
 
-    # print("\n✅ DFA (antes de minimizar):")
-    # print("Estados:", converted_transitions.keys())
-    # for state, trans in converted_transitions.items():
-    #     print(f"Estado {state}: {trans}")
+    print("\n DFA (antes de minimizar):")
+    print("Estados:", converted_transitions.keys())
+    for state, trans in converted_transitions.items():
+        print(f"Estado {state}: {trans}")
     
     converted_accepting = { s if isinstance(s, int) else dfa_states[s] for s in accepting_states }
     
-    # print("\n📌 Estados de aceptación antes de minimizar:", accepting_states)
+    # print("\n Estados de aceptación antes de minimizar:", accepting_states)
 
     # Minimizar el DFA
     minimized_initial, minimized_transitions, minimized_accepting, state_to_block, _ = minimize_dfa(converted_transitions, converted_accepting)
@@ -227,31 +238,29 @@ def main():
         "accepting": { s: s for s in minimized_accepting }
     }
     
-    # print("\n📌 Estados de aceptación después de minimizar:", minimized_accepting)
+    print("\n Estados de aceptación después de minimizar:", minimized_accepting)
 
-    # print("\n📌 state_to_block generado:", state_to_block)
+    print("\n state_to_block generado:", state_to_block)
 
-    # print("\nDFA minimizado generado:")
-    # print("Estados:", final_dfa["transitions"].keys())
-    # print("Estados finales:", final_dfa["accepting"])
+    print("\nDFA minimizado generado:")
+    print("Estados:", final_dfa["transitions"].keys())
+    print("Estados finales:", final_dfa["accepting"])
 
+    tabla_simbolos = SymbolTable()
     # Simulación: se pide la cadena completa y se escanean los tokens
     while True:
         input_str = input("\nIngrese la cadena completa a simular (sin dividir en tokens): ")
         if input_str.lower() == "exit":
             break
-        tokens = scan_input(final_dfa["transitions"], final_dfa["initial"], final_dfa["accepting"], input_str)
+        tokens = scan_input(final_dfa["transitions"], final_dfa["initial"], final_dfa["accepting"], input_str, tabla_simbolos)
         if tokens is not None:
             print("\nTokens reconocidos:")
             for t in tokens:
                 print(f"  {t}")
+            print("\n Tabla de símbolos generada:")
+            tabla_simbolos.print_table()    
         else:
             print("Error en el análisis léxico.")
-
-
-
-
-
 
 if __name__ == "__main__":
     main()
