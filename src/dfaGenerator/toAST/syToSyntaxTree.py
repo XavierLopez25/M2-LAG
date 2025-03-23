@@ -10,6 +10,7 @@ class Nodo:
     def __init__(self, valor, token_type=None, izquierdo=None, derecho=None):
         self.valor = valor          # El símbolo (literal, clase o operador)
         self.token_type = token_type  # "LITERAL", "BRACKET", "OPERATOR" o "TOKEN"
+        self.token_info = None      # Información adicional para los nodos de tipo "TOKEN"
         self.izquierdo = izquierdo
         self.derecho = derecho
         
@@ -80,13 +81,26 @@ def postfix_a_arbol_sintactico(postfix_tokens: list) -> Nodo:
             nodo_bracket = expand_bracket(token_value)
             pila.append(nodo_bracket)
         elif token_type == "TOKEN":
+            if token_value is None:
+                raise ValueError("Token de tipo 'TOKEN' con valor None detectado. Revisa el postfix.")
             if not pila:
                 raise ValueError(f"Error: `TOKEN` {token_value} sin expresión asociada.")
-            expr = pila.pop()  # Extraer la expresión a la que se asocia el TOKEN
-            # Crear un nodo para la etiqueta del token (remover el '~' si es necesario)
+            
+            expr = pila.pop()
             token_label = token_value[1:] if token_value.startswith("~") else token_value
-            token_node = Nodo(token_label, "LITERAL")
-            nodo_token = Nodo("~", "TOKEN", izquierdo=expr, derecho=token_node)
+            nodo_token = Nodo("~", "TOKEN", izquierdo=expr)
+
+            def anotar_token_info(nodo, token_info):
+                if nodo is None:
+                        return
+                if nodo.izquierdo is None and nodo.derecho is None:
+                    nodo.token_info = token_info  # anotar todas las hojas
+                else:
+                    print('TOKEN INFO ANTES DE ASIGNAR: ', token_info)
+                    anotar_token_info(nodo.izquierdo, token_info)
+                    anotar_token_info(nodo.derecho, token_info)
+
+            anotar_token_info(expr, token_label)
             pila.append(nodo_token)
         
         elif token_type == "OPERATOR":

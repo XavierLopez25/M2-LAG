@@ -2,9 +2,13 @@ from lexicalAnalyzerGenerator.yalParser import parse_yalex
 from dfaGenerator.toPostfix.regexToSY import infix_a_postfix
 from dfaGenerator.toAST.syToSyntaxTree import postfix_a_arbol_sintactico
 from dfaGenerator.directConstructionDFA.astToDFA import direct_dfa_from_ast
-from dfaGenerator.minimizeDFA.AFDtoMinimizedAFD import minimize_dfa
+from dfaGenerator.minimizeDFA.AFDtoMinimizedAFD import improve_minimize_dfa
 from symbolTable.symbolTableGenerator import SymbolTable
 import re
+import sys
+from lexicalAnalyzerGenerator.readFile import read_file
+import codecs
+from dfaGenerator.utils.visualizeLexeme import visualize_lexeme
 
 def is_escaped(s: str, pos: int) -> bool:
     """
@@ -81,44 +85,32 @@ def preprocess_regex(s: str) -> str:
     return "".join(token_val for token_type, token_val in tokens)
 
 
-def scan_input(transitions, initial, accepting, input_str, symbol_table, dfa_states_mapping):
-    """
-    Simula el análisis de una cadena completa utilizando el DFA.
+def scan_input(transitions, initial, accepting, input_str, symbol_table, dfa_states_mapping, start_line=1):
+    
+    print(f"\n[main] Contenido raw (repr): {repr(input_str)}")
 
-    - transitions: tabla de transiciones del DFA (minimizado).
-    - initial: estado inicial del DFA.
-    - accepting: conjunto de estados de aceptación.
-    - input_str: cadena de entrada (se asume sin '$').
-
-    La función implementa el algoritmo de "maximal munch": 
-      desde cada posición, avanza mientras existan transiciones y registra
-      la última posición en la que el estado fue aceptante.
-    Devuelve una lista de tokens (en este ejemplo, simplemente las subcadenas).
-    """
-    # Asegurarse de que la cadena termine con el símbolo terminal
     if not input_str.endswith('$'):
         input_str += '$'
-    
+
     tokens = []
     pos = 0
     n = len(input_str)
-    linea = 1
-    
+    linea = start_line
+
     while pos < n - 1:
-        # Omitir espacios en blanco fuera de literales
-        while pos < n - 1 and input_str[pos].isspace():
-            if input_str[pos] == '\n':
-                linea += 1
-            pos += 1
+        # while pos < n - 1 and input_str[pos].isspace():
+        #     if input_str[pos] == '\n':
+        #         linea += 1
+        #     pos += 1
 
         if pos >= n - 1:
             break
-        
+
         current_state = initial
-        last_accept_pos = -1  # posición del último carácter aceptado
+        last_accept_pos = -1
         last_accept_token = None
         current_pos = pos
-        
+
         while current_pos < n:
             char = input_str[current_pos]
             if char == '$' and current_pos == n - 1:
@@ -132,11 +124,11 @@ def scan_input(transitions, initial, accepting, input_str, symbol_table, dfa_sta
                     last_accept_token = accepting[state_id]
             else:
                 break
-        
+
         if last_accept_pos == -1:
             print(f"Error: No se reconoce token a partir de la posición {pos} ('{input_str[pos:]}').")
             return None
-        
+
         lexema = input_str[pos:last_accept_pos]
         tokens.append((last_accept_token, lexema))
 
@@ -145,131 +137,107 @@ def scan_input(transitions, initial, accepting, input_str, symbol_table, dfa_sta
 
         linea += lexema.count('\n')
         pos = last_accept_pos
-    
+
     return tokens
 
-
 def combine_rules(rules):
-    """
-    Combina todas las reglas en una única expresión regular usando el operador '|'
-    y añade un marcador de token a cada una.
-    Si la regla está entre comillas (es literal), se remueven las comillas y se aplica re.escape
-    para escapar automáticamente los caracteres especiales.
-    """
     combined = []
-    for regex, token in rules.items():
-        # Quitar el '$' final si está presente y limpiar extremos
-        if regex.endswith('$'):
-            regex = regex[:-1].strip()
-        else:
-            regex = regex.strip()
-        
-        # Para reglas literales puras (empiezan y terminan con comillas y sin espacios internos)
-        if regex.startswith('"') and regex.endswith('"') and ' ' not in regex[1:-1]:
-            literal = regex[1:-1]
-            processed_regex = re.escape(literal)
+    token_priority = {}
+    for i, (regex, token) in enumerate(rules.items()):
+        regex = regex.rstrip('$').strip()
+        if regex.startswith('"') and regex.endswith('"'):
+            literal = codecs.decode(regex[1:-1], 'unicode_escape')
+            processed_regex = ''.join(re.escape(c) for c in literal)
         else:
             processed_regex = preprocess_regex(regex)
-        
-        alternative = f"({processed_regex})~({token})"
+        alternative = f"({processed_regex}.{re.escape('$')})~{token}"         
+        token_priority[token] = i
         print(f"[combine_rules] Regla procesada: {regex} -> {alternative}")
         combined.append(alternative)
-    
-    combined_regex = "(" + "|".join(combined) + ")$"
+    combined_regex = "(" + "|".join(combined) + ")"
     print(f"[combine_rules] Regex combinada: {combined_regex}")
-    return combined_regex
+    return combined_regex, token_priority
 
 def main():
     yalex_file = "hard_lex.yal"
-    rules = parse_yalex(yalex_file)
+    archivo_a_procesar = "teste1.txt"
 
-    print("\nReglas extraídas:")
-    for regex, token in rules.items():
-        print(f"  {regex} -> {token}")
+    original_stdout = sys.stdout
+    with open("console_output.txt", "w", encoding="utf-8") as f:
+        sys.stdout = f
 
-     # Combinar todas las reglas en una sola expresión regular
-    combined_regex = combine_rules(rules)
-    print("\nRegex combinada:", combined_regex)
+        rules = parse_yalex(yalex_file)
+        print("\nReglas extraídas:")
+        for regex, token in rules.items():
+            print(f"  {regex} -> {token}")
 
-    # Ahora, en lugar de iterar por cada regla, se procesa una sola regex combinada:
-    postfix_tokens = infix_a_postfix(combined_regex)
-    print(f"[main] Postfix generado: {postfix_tokens}")
+        combined_regex, token_priority = combine_rules(rules)
+        postfix_tokens = infix_a_postfix(combined_regex)
+        print(f"[main] Postfix generado: {postfix_tokens}")
 
-    ast_root = postfix_a_arbol_sintactico(postfix_tokens)
-    print("\n[main] AST generado:")
-    print(ast_root)
+        ast_root = postfix_a_arbol_sintactico(postfix_tokens)
+        print("\n[main] AST generado:")
+        print(ast_root)
 
-    # Build the DFA from the AST
-    dfa_states, transitions, accepting_states, pos_dict, followpos = direct_dfa_from_ast(ast_root)
-    # print("Debug - dfa_states:", dfa_states)
-    # print("Debug - transitions:", transitions)
-    # print("Debug - accepting_states:", accepting_states)
-    # print("Debug - pos_dict:", pos_dict)
-    # print("Debug - followpos:", followpos)
+        dfa_states, transitions, accepting_states, pos_dict, followpos = direct_dfa_from_ast(ast_root, token_priority)
 
-    # Convert states and transitions to integers
-    initial_frozenset = next(iter(transitions.keys()))
-    initial_state_int = dfa_states[initial_frozenset]
-    # print("Debug - initial_frozenset:", initial_frozenset)
-    # print("Debug - initial_state_int:", initial_state_int)
+        # Convertir los estados con conjuntos (frozenset) a enteros
+        converted_transitions = {}
+        for state_set, trans in transitions.items():
+            state_id = dfa_states[state_set]
+            converted_transitions[state_id] = {}
+            for sym, target_set in trans.items():
+                converted_transitions[state_id][sym] = dfa_states[target_set]
 
-    converted_transitions = {}
-    for state, trans in transitions.items():
-        int_state = dfa_states[state]
-        converted_transitions[int_state] = {}
-        for sym, next_state in trans.items():
-            converted_transitions[int_state][sym] = dfa_states[next_state]
-    # print("Debug - converted_transitions:", converted_transitions)
+        accepting_state_to_token = accepting_states
 
-    print("\n DFA (antes de minimizar):")
-    print("Estados:", converted_transitions.keys())
-    for state, trans in converted_transitions.items():
-        print(f"Estado {state}: {trans}")
-    
-    converted_accepting = { s if isinstance(s, int) else dfa_states[s] for s in accepting_states }
-    
-    # print("\n Estados de aceptación antes de minimizar:", accepting_states)
+        print("\n[main] Iniciando minimización del AFD...")
+        min_initial, min_transitions, min_accepting_set, state_to_block, blocks = improve_minimize_dfa(
+            converted_transitions,
+            set(accepting_state_to_token.keys()),
+            accepting_state_to_token
+        )        
+        print("[main] Minimización completada.")
+        min_accepting = {}
+        block_to_tokens = {}
 
-    # Minimizar el DFA
-    minimized_initial, minimized_transitions, minimized_accepting, state_to_block, _ = minimize_dfa(converted_transitions, converted_accepting)
-    
-    if initial_state_int in state_to_block:
-        new_initial = state_to_block[initial_state_int]
-    else:
-        new_initial = next(iter(state_to_block.values()))
-    
-    final_dfa = {
-        "initial": new_initial,
-        "transitions": minimized_transitions,
-        "accepting": { s: s for s in minimized_accepting }
-    }
-    
-    print("\n[main] Estados de aceptación después de minimizar:", minimized_accepting)
+        # Recolectar todos los tokens aceptantes por bloque
+        for old_state, token in accepting_state_to_token.items():
+            if old_state in state_to_block:
+                block_id = state_to_block[old_state]
+                if block_id not in block_to_tokens:
+                    block_to_tokens[block_id] = set()
+                block_to_tokens[block_id].add(token)
 
-    print("\n[main] state_to_block generado:", state_to_block)
+        # Elegir el token de mayor prioridad por bloque
+        for block_id, tokens in block_to_tokens.items():
+            best_token = min(tokens, key=lambda t: token_priority.get(t, float('inf')))
+            min_accepting[block_id] = best_token
 
-    print("\n[main] DFA minimizado generado:")
-    print("[main] Estados:", final_dfa["transitions"].keys())
-    print("[main] Estados finales:", final_dfa["accepting"])
+        print("\n[min] Estados aceptantes después de minimización:")
+        for estado, token in min_accepting.items():
+            print(f"  Estado {estado} -> {token}")
 
-    tabla_simbolos = SymbolTable()
-    # Simulación: se pide la cadena completa y se escanean los tokens
-    while True:
-        input_str = input("\nIngrese la cadena completa a simular (sin dividir en tokens): ")
-        if input_str.lower() == "exit":
-            break
-        tokens = scan_input(final_dfa["transitions"], final_dfa["initial"], final_dfa["accepting"], input_str, tabla_simbolos, state_to_block)
-        if tokens is not None:
-            print("\nTokens reconocidos:")
-            for t in tokens:
-                print(f"  {t}")
-            print("\n Tabla de símbolos generada:")
-            tabla_simbolos.print_table()    
-        else:
-            print("Error en el análisis léxico.")
+        tabla_simbolos = SymbolTable()
+        try:
+            contenido = read_file(archivo_a_procesar)
+            print(f"\n[main] Contenido del archivo '{archivo_a_procesar}':\n{contenido}\n")
+            tokens = scan_input(min_transitions, min_initial, min_accepting, contenido, tabla_simbolos, {v: v for v in min_transitions})
+            if tokens is not None:
+                print("\nTokens reconocidos:")
+                for tipo, lex in tokens:
+                    printable_lex = visualize_lexeme(tipo, lex)
+                    print(f"  {tipo}: '{printable_lex}'")
+                print("\nTabla de símbolos generada:")
+                tabla_simbolos.print_table()
+            else:
+                print("Error en el análisis léxico.")
+        except Exception as e:
+            print(f"[main] Error al leer o procesar archivo: {e}")
+
+    sys.stdout = original_stdout
 
 if __name__ == "__main__":
     main()
-
 
     #12+34*(56)

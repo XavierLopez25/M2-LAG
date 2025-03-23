@@ -1,0 +1,7 @@
+# ojala que funcione
+if(nicolas<=20)
+	while (x == 1)
+(
+)
+x+y
+11 <= x1

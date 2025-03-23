@@ -1,4 +1,5 @@
 import re
+import codecs
 
 def expand_lets(expression, lets):
     """
@@ -45,6 +46,7 @@ def parse_yalex(filepath: str):
                 regex = expand_lets(regex, lets)
 
                 # Guardar la regla en el diccionario con regex ya expandida
+                regex = codecs.decode(regex, 'unicode_escape')
                 rules[regex] = token
 
     return rules
