@@ -81,7 +81,7 @@ def preprocess_regex(s: str) -> str:
     return "".join(token_val for token_type, token_val in tokens)
 
 
-def scan_input(transitions, initial, accepting, input_str, symbol_table):
+def scan_input(transitions, initial, accepting, input_str, symbol_table, dfa_states_mapping):
     """
     Simula el análisis de una cadena completa utilizando el DFA.
 
@@ -116,6 +116,7 @@ def scan_input(transitions, initial, accepting, input_str, symbol_table):
         
         current_state = initial
         last_accept_pos = -1  # posición del último carácter aceptado
+        last_accept_token = None
         current_pos = pos
         
         while current_pos < n:
@@ -125,8 +126,10 @@ def scan_input(transitions, initial, accepting, input_str, symbol_table):
             if char in transitions.get(current_state, {}):
                 current_state = transitions[current_state][char]
                 current_pos += 1
-                if current_state in accepting:
+                state_id = dfa_states_mapping[current_state]
+                if state_id in accepting:
                     last_accept_pos = current_pos
+                    last_accept_token = accepting[state_id]
             else:
                 break
         
@@ -134,14 +137,13 @@ def scan_input(transitions, initial, accepting, input_str, symbol_table):
             print(f"Error: No se reconoce token a partir de la posición {pos} ('{input_str[pos:]}').")
             return None
         
-        token_lexeme = input_str[pos:last_accept_pos]
-        tokens.append(token_lexeme)
+        lexema = input_str[pos:last_accept_pos]
+        tokens.append((last_accept_token, lexema))
 
-        # Guardar en tabla si es identificador válido
-        if token_lexeme and token_lexeme[0].isalpha():
-            symbol_table.add(token_lexeme, linea)
+        if last_accept_token == "ID":
+            symbol_table.add(lexema, linea)
 
-        linea += token_lexeme.count('\n') 
+        linea += lexema.count('\n')
         pos = last_accept_pos
     
     return tokens
@@ -169,9 +171,13 @@ def combine_rules(rules):
         else:
             processed_regex = preprocess_regex(regex)
         
-        combined.append(f"({processed_regex})~{token}")
+        alternative = f"({processed_regex})~({token})"
+        print(f"[combine_rules] Regla procesada: {regex} -> {alternative}")
+        combined.append(alternative)
     
-    return "(" + "|".join(combined) + ").$"
+    combined_regex = "(" + "|".join(combined) + ")$"
+    print(f"[combine_rules] Regex combinada: {combined_regex}")
+    return combined_regex
 
 def main():
     yalex_file = "hard_lex.yal"
@@ -187,10 +193,10 @@ def main():
 
     # Ahora, en lugar de iterar por cada regla, se procesa una sola regex combinada:
     postfix_tokens = infix_a_postfix(combined_regex)
-    print(f"\nPostfix generado para la regex combinada: {postfix_tokens}")
+    print(f"[main] Postfix generado: {postfix_tokens}")
 
     ast_root = postfix_a_arbol_sintactico(postfix_tokens)
-    print("\nAST generado:")
+    print("\n[main] AST generado:")
     print(ast_root)
 
     # Build the DFA from the AST
@@ -238,13 +244,13 @@ def main():
         "accepting": { s: s for s in minimized_accepting }
     }
     
-    print("\n Estados de aceptación después de minimizar:", minimized_accepting)
+    print("\n[main] Estados de aceptación después de minimizar:", minimized_accepting)
 
-    print("\n state_to_block generado:", state_to_block)
+    print("\n[main] state_to_block generado:", state_to_block)
 
-    print("\nDFA minimizado generado:")
-    print("Estados:", final_dfa["transitions"].keys())
-    print("Estados finales:", final_dfa["accepting"])
+    print("\n[main] DFA minimizado generado:")
+    print("[main] Estados:", final_dfa["transitions"].keys())
+    print("[main] Estados finales:", final_dfa["accepting"])
 
     tabla_simbolos = SymbolTable()
     # Simulación: se pide la cadena completa y se escanean los tokens
@@ -252,7 +258,7 @@ def main():
         input_str = input("\nIngrese la cadena completa a simular (sin dividir en tokens): ")
         if input_str.lower() == "exit":
             break
-        tokens = scan_input(final_dfa["transitions"], final_dfa["initial"], final_dfa["accepting"], input_str, tabla_simbolos)
+        tokens = scan_input(final_dfa["transitions"], final_dfa["initial"], final_dfa["accepting"], input_str, tabla_simbolos, state_to_block)
         if tokens is not None:
             print("\nTokens reconocidos:")
             for t in tokens:

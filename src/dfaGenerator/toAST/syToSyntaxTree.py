@@ -83,9 +83,12 @@ def postfix_a_arbol_sintactico(postfix_tokens: list) -> Nodo:
             if not pila:
                 raise ValueError(f"Error: `TOKEN` {token_value} sin expresión asociada.")
             expr = pila.pop()  # Extraer la expresión a la que se asocia el TOKEN
-            nodo_token = Nodo(token_value, "TOKEN", izquierdo=expr)
+            # Crear un nodo para la etiqueta del token (remover el '~' si es necesario)
+            token_label = token_value[1:] if token_value.startswith("~") else token_value
+            token_node = Nodo(token_label, "LITERAL")
+            nodo_token = Nodo("~", "TOKEN", izquierdo=expr, derecho=token_node)
             pila.append(nodo_token)
-            
+        
         elif token_type == "OPERATOR":
             if token_value == '*':
                 if not pila:

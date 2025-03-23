@@ -12,6 +12,21 @@ Luego, a partir de firstpos de la raíz se genera el AFD no minimizado.
 
 from collections import defaultdict
 
+def annotate_leaves(node, token_info, pos_dict):
+    """
+    Recorre recursivamente el subárbol y asigna a cada hoja la información del token.
+    """
+    if node is None:
+        return
+    if node.izquierdo is None and node.derecho is None:
+        print(f"[annotate_leaves] Anotando hoja '{node.valor}' con token_info '{token_info}'")
+        node.token = token_info
+        if hasattr(node, "pos"):
+            pos_dict[node.pos] = (node.valor, token_info)
+    else:
+        annotate_leaves(node.izquierdo, token_info, pos_dict)
+        annotate_leaves(node.derecho, token_info, pos_dict)
+
 def compute_functions(node, pos_counter, pos_dict):
     """
     Recorre el AST en postorden asignando números de posición a las hojas
@@ -28,7 +43,10 @@ def compute_functions(node, pos_counter, pos_dict):
         # Asumimos que toda hoja representa un símbolo que debe aparecer (incluso '#' se numerará)
         node.nullable = False
         node.pos = pos_counter[0]
-        pos_dict[node.pos] = node.valor
+        # Se guarda en pos_dict una tupla: (carácter, token_info)
+        token_info = getattr(node, "token", None)
+        pos_dict[node.pos] = (node.valor, token_info)
+        print(f"[compute_functions] Nodo TOKEN encontrado. Se asigna token_info '{token_info}' a subárbol izquierdo")
         pos_counter[0] += 1
         node.firstpos = {node.pos}
         node.lastpos = {node.pos}
@@ -39,11 +57,17 @@ def compute_functions(node, pos_counter, pos_dict):
         compute_functions(node.izquierdo, pos_counter, pos_dict)
     if node.derecho:
         compute_functions(node.derecho, pos_counter, pos_dict)
+
     if node.token_type == "TOKEN":
-        # Propagar los atributos del hijo izquierdo (que contiene la expresión)
-        node.nullable = node.izquierdo.nullable
-        node.firstpos = node.izquierdo.firstpos
-        node.lastpos = node.izquierdo.lastpos
+        token_info = node.derecho.valor  
+        print(f"[compute_functions] Nodo TOKEN encontrado, asignando token_info: {token_info}")
+        # Propagar el token en los subárboles y actualizar pos_dict
+        annotate_leaves(node.izquierdo, token_info, pos_dict)
+        annotate_leaves(node.derecho, token_info, pos_dict)
+        # Calcular nullable, firstpos y lastpos...
+        node.nullable = node.izquierdo.nullable and node.derecho.nullable
+        node.firstpos = node.izquierdo.firstpos.union(node.derecho.firstpos)
+        node.lastpos = node.izquierdo.lastpos.union(node.derecho.lastpos)
 
     # Calcular según el operador del nodo
     if node.token_type == "OPERATOR":
@@ -113,27 +137,23 @@ def build_dfa(root, pos_dict, followpos):
     unmarked = [initial_state]
     dfa_states = {initial_state: 0}
     transitions = {}
-    accepting_states = set()
-
-    # Determinar la posición del marcador '$' (marcador de fin de cadena)
-    marker_pos = None
-    for pos, symbol in pos_dict.items():
-        if symbol == '$':
-            marker_pos = pos
-            break
+    accepting_states = {}
 
     while unmarked:
         state = unmarked.pop()
+        print(f"[build_dfa] Procesando estado (id: {dfa_states[state]}): {state}")
         transitions[state] = {}
-        # Para cada símbolo (excluyendo '$')
+        # Construir el alfabeto usando el primer elemento de la tupla (símbolo)
         alphabet = set()
         for p in state:
-            if pos_dict[p] != '$':
-                alphabet.add(pos_dict[p])
+            sym, _ = pos_dict[p]
+            alphabet.add(sym)
+        print(f"[build_dfa] Alfabeto del estado: {alphabet}")
         for symbol in alphabet:
             new_state = set()
             for p in state:
-                if pos_dict[p] == symbol:
+                sym, _ = pos_dict[p]
+                if sym == symbol:
                     new_state = new_state.union(followpos[p])
             new_state = frozenset(new_state)
             if new_state:
@@ -141,9 +161,16 @@ def build_dfa(root, pos_dict, followpos):
                 if new_state not in dfa_states:
                     dfa_states[new_state] = len(dfa_states)
                     unmarked.append(new_state)
-        # Si el estado contiene la posición del marcador, es un estado final.
-        if marker_pos is not None and marker_pos in state:
-            accepting_states.add(dfa_states[state])
+                    print(f"[build_dfa] Nuevo estado creado (id: {dfa_states[new_state]}): {new_state}")
+
+        # Marcar estado como aceptante si alguna posición tiene token_info
+        for p in state:
+            sym, token_info = pos_dict[p]
+            print(f"[build_dfa] En estado {dfa_states[state]}, hoja pos {p}: símbolo '{sym}', token_info '{token_info}'")
+            if sym == '$' and token_info is not None:
+                accepting_states[dfa_states[state]] = token_info
+                print(f"[build_dfa] Estado {dfa_states[state]} marcado como aceptante con token: {token_info}")
+                break  # Con uno basta para marcar el estado
     return dfa_states, transitions, accepting_states
 
 def direct_dfa_from_ast(root):
