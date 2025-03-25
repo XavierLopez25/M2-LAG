@@ -96,7 +96,7 @@ def postfix_a_arbol_sintactico(postfix_tokens: list) -> Nodo:
                 if nodo.izquierdo is None and nodo.derecho is None:
                     nodo.token_info = token_info  # anotar todas las hojas
                 else:
-                    print('TOKEN INFO ANTES DE ASIGNAR: ', token_info)
+                    # print('TOKEN INFO ANTES DE ASIGNAR: ', token_info)
                     anotar_token_info(nodo.izquierdo, token_info)
                     anotar_token_info(nodo.derecho, token_info)
 

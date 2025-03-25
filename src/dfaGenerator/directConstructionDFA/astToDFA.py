@@ -13,7 +13,7 @@ def compute_functions(node, pos_counter, pos_dict):
         node.pos = pos_counter[0]
         token_info = getattr(node, "token_info", None)
         pos_dict[node.pos] = (node.valor, token_info)
-        print(f"[compute_functions] Hoja '{node.valor}' con pos {node.pos} y token_info='{token_info}'")
+        # print(f"[compute_functions] Hoja '{node.valor}' con pos {node.pos} y token_info='{token_info}'")
         node.firstpos = {node.pos}
         node.lastpos = {node.pos}
         pos_counter[0] += 1
@@ -25,7 +25,7 @@ def compute_functions(node, pos_counter, pos_dict):
 
     if node.token_type == "TOKEN":
         token_info = node.token_info
-        print(f"[compute_functions] Nodo TOKEN con info: '{token_info}'")
+        # print(f"[compute_functions] Nodo TOKEN con info: '{token_info}'")
 
         # Propaga el token_info a todas las hojas del subárbol izquierdo
         def annotate_leaves(n, token_info):

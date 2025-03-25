@@ -153,11 +153,11 @@ def combine_rules(rules):
             processed_regex = preprocess_regex(regex)
         alternative = f"({processed_regex}.{re.escape('$')})~{token}"         
         token_priority[token] = i
-        print(f"[combine_rules] Regla procesada: {regex} -> {alternative}")
+        # print(f"[combine_rules] Regla procesada: {regex} -> {alternative}")
         combined.append(alternative)
 
     combined_regex = "(" + "|".join(combined) + ")"
-    print(f"[combine_rules] Regex combinada: {combined_regex}")
+    # print(f"[combine_rules] Regex combinada: {combined_regex}")
     return combined_regex, token_priority
 
 def remove_braces_and_dedent(block: str) -> str:
