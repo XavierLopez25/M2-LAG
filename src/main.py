@@ -1,6 +1,6 @@
 from lexicalAnalyzerGenerator.yalParser import parse_yalex
 from dfaGenerator.toPostfix.regexToSY import infix_a_postfix
-from dfaGenerator.toAST.syToSyntaxTree import postfix_a_arbol_sintactico
+from dfaGenerator.toAST.syToSyntaxTree import postfix_a_arbol_sintactico, visualizar_arbol_sintactico
 from dfaGenerator.directConstructionDFA.astToDFA import direct_dfa_from_ast
 from dfaGenerator.minimizeDFA.AFDtoMinimizedAFD import improve_minimize_dfa
 from symbolTable.symbolTableGenerator import SymbolTable
@@ -190,8 +190,11 @@ def main():
         print(f"[main] Postfix generado: {postfix_tokens}")
 
         ast_root = postfix_a_arbol_sintactico(postfix_tokens)
+        
         print("\n[main] AST generado:")
         print(ast_root)
+        visualizar_arbol_sintactico(ast_root, "syntax_tree")
+
 
         dfa_states, transitions, accepting_states, pos_dict, followpos = direct_dfa_from_ast(ast_root, token_priority)
 
