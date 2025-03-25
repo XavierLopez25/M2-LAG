@@ -4,11 +4,12 @@ from dfaGenerator.toAST.syToSyntaxTree import postfix_a_arbol_sintactico
 from dfaGenerator.directConstructionDFA.astToDFA import direct_dfa_from_ast
 from dfaGenerator.minimizeDFA.AFDtoMinimizedAFD import improve_minimize_dfa
 from symbolTable.symbolTableGenerator import SymbolTable
+from lexicalAnalyzerGenerator.readFile import read_file
+from syntaxChecker.errorChecker import report_lexical_error
+from dfaGenerator.utils.visualizeLexeme import visualize_lexeme
 import re
 import sys
-from lexicalAnalyzerGenerator.readFile import read_file
 import codecs
-from dfaGenerator.utils.visualizeLexeme import visualize_lexeme
 
 def is_escaped(s: str, pos: int) -> bool:
     """
@@ -126,7 +127,7 @@ def scan_input(transitions, initial, accepting, input_str, symbol_table, dfa_sta
                 break
 
         if last_accept_pos == -1:
-            print(f"Error: No se reconoce token a partir de la posición {pos} ('{input_str[pos:]}').")
+            report_lexical_error(pos, input_str, start_line)
             return None
 
         lexema = input_str[pos:last_accept_pos]
@@ -160,7 +161,7 @@ def combine_rules(rules):
 
 def main():
     yalex_file = "hard_lex.yal"
-    archivo_a_procesar = "teste1.txt"
+    archivo_a_procesar = "test2.py"
 
     original_stdout = sys.stdout
     with open("console_output.txt", "w", encoding="utf-8") as f:
@@ -230,8 +231,7 @@ def main():
                     print(f"  {tipo}: '{printable_lex}'")
                 print("\nTabla de símbolos generada:")
                 tabla_simbolos.print_table()
-            else:
-                print("Error en el análisis léxico.")
+        
         except Exception as e:
             print(f"[main] Error al leer o procesar archivo: {e}")
 

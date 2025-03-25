@@ -1,7 +1,17 @@
 # ojala que funcione
-if(nicolas<=20)
-	while (x == 1)
-(
-)
-x+y
-11 <= x1
+if(x1 >= 100):
+{
+    while(counter1 != 0)
+    {
+        result = result + value123;
+        temp = (x1 - y1) * 5 / 3;
+        array[10] = valueList[ index ];
+    }
+}
+else:
+{
+    # Comentario dentro de bloque else
+    errorCode = 404;
+}
+
+finalResult = result1 + temp2 * (value - offset) / scale;

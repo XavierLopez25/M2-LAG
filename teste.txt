@@ -1,7 +1,28 @@
-# ojala que funcione
-if(nicolas<=20)
-    while (x == 1)
-(
-)
-x+y
-11 <= x1
+# Dios nos ayude con este programa
+# Inicio del programa
+
+if(config1 >= 10):
+{
+    counter1 = 0;
+    while(counter1 != maxLimit):
+    {
+        result1 = result1 + inputArray[counter1];
+        counter1 = counter1 + 1;
+        # Comentario dentro del while
+    }
+}
+else:
+{
+    errorFlag = 1;
+    message = "Limite excedido";
+}
+
+finalValue = result1 + offset * (adjustment - delta) / scale123;
+
+# Verificacion de sintaxis con expresiones
+if (a1 < b2) {
+    x = y + (z * (w - v));
+}
+
+# Uso de todos los simbolos posibles
+list[ index ] = (value + 100) * factor / divisor - 42;

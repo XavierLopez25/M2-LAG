@@ -1,0 +1,868 @@
+
+Reglas extraídas:
+  "if" $ -> IF
+  "else" $ -> ELSE
+  "while" $ -> WHILE
+  "==" $ -> EQUALS
+  "!=" $ -> NOTEQUAL
+  "<" $ -> LESS
+  ">" $ -> GREATER
+  "<=" $ -> LESSEQ
+  ">=" $ -> GREATEREQ
+  "+" $ -> PLUS
+  "-" $ -> MINUS
+  "*" $ -> TIMES
+  "/" $ -> DIVIDE
+  "(" $ -> LPAREN
+  ")" $ -> RPAREN
+  ":" $ -> COLON
+  ";" $ -> SEMICOLON
+  "=" $ -> ASSIGN
+  "," $ -> COMMA
+  "{" $ -> LBRACE
+  "}" $ -> RBRACE
+  "[" $ -> LBRACKET
+  "]" $ -> RBRACKET
+  \# ([a-zA-Z0-9 	]+) $ -> COMMENT
+  ""[^\"
+]*"" $ -> STRING
+  ([a-zA-Z]) (([a-zA-Z]) | ([0-9]))* $ -> ID
+  (([0-9])+) $ -> NUMBER
+  (" " | "	" | "
+" | "") $ -> WHITESPACE
+[combine_rules] Regla procesada: "if" -> (if.\$)~IF
+[combine_rules] Regla procesada: "else" -> (else.\$)~ELSE
+[combine_rules] Regla procesada: "while" -> (while.\$)~WHILE
+[combine_rules] Regla procesada: "==" -> (==.\$)~EQUALS
+[combine_rules] Regla procesada: "!=" -> (!=.\$)~NOTEQUAL
+[combine_rules] Regla procesada: "<" -> (<.\$)~LESS
+[combine_rules] Regla procesada: ">" -> (>.\$)~GREATER
+[combine_rules] Regla procesada: "<=" -> (<=.\$)~LESSEQ
+[combine_rules] Regla procesada: ">=" -> (>=.\$)~GREATEREQ
+[combine_rules] Regla procesada: "+" -> (\+.\$)~PLUS
+[combine_rules] Regla procesada: "-" -> (\-.\$)~MINUS
+[combine_rules] Regla procesada: "*" -> (\*.\$)~TIMES
+[combine_rules] Regla procesada: "/" -> (/.\$)~DIVIDE
+[combine_rules] Regla procesada: "(" -> (\(.\$)~LPAREN
+[combine_rules] Regla procesada: ")" -> (\).\$)~RPAREN
+[combine_rules] Regla procesada: ":" -> (:.\$)~COLON
+[combine_rules] Regla procesada: ";" -> (;.\$)~SEMICOLON
+[combine_rules] Regla procesada: "=" -> (=.\$)~ASSIGN
+[combine_rules] Regla procesada: "," -> (,.\$)~COMMA
+[combine_rules] Regla procesada: "{" -> (\{.\$)~LBRACE
+[combine_rules] Regla procesada: "}" -> (\}.\$)~RBRACE
+[combine_rules] Regla procesada: "[" -> (\[.\$)~LBRACKET
+[combine_rules] Regla procesada: "]" -> (\].\$)~RBRACKET
+[combine_rules] Regla procesada: \# ([a-zA-Z0-9 	]+) -> (\#([a-zA-Z0-9 	]+).\$)~COMMENT
+[combine_rules] Regla procesada: ""[^\"
+]*"" -> ("\[\^"\
+\\]\*".\$)~STRING
+[combine_rules] Regla procesada: ([a-zA-Z]) (([a-zA-Z]) | ([0-9]))* -> (([a-zA-Z])(([a-zA-Z])|([0-9]))*.\$)~ID
+[combine_rules] Regla procesada: (([0-9])+) -> ((([0-9])+).\$)~NUMBER
+[combine_rules] Regla procesada: (" " | "	" | "
+" | "") -> ((" "|"	"|"
+"|"").\$)~WHITESPACE
+[combine_rules] Regex combinada: ((if.\$)~IF|(else.\$)~ELSE|(while.\$)~WHILE|(==.\$)~EQUALS|(!=.\$)~NOTEQUAL|(<.\$)~LESS|(>.\$)~GREATER|(<=.\$)~LESSEQ|(>=.\$)~GREATEREQ|(\+.\$)~PLUS|(\-.\$)~MINUS|(\*.\$)~TIMES|(/.\$)~DIVIDE|(\(.\$)~LPAREN|(\).\$)~RPAREN|(:.\$)~COLON|(;.\$)~SEMICOLON|(=.\$)~ASSIGN|(,.\$)~COMMA|(\{.\$)~LBRACE|(\}.\$)~RBRACE|(\[.\$)~LBRACKET|(\].\$)~RBRACKET|(\#([a-zA-Z0-9 	]+).\$)~COMMENT|("\[\^"\
+\\]\*".\$)~STRING|(([a-zA-Z])(([a-zA-Z])|([0-9]))*.\$)~ID|((([0-9])+).\$)~NUMBER|((" "|"	"|"
+"|"").\$)~WHITESPACE)
+[main] Postfix generado: [('LITERAL', 'i'), ('LITERAL', 'f'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~IF'), ('LITERAL', 'e'), ('LITERAL', 'l'), ('OPERATOR', '.'), ('LITERAL', 's'), ('OPERATOR', '.'), ('LITERAL', 'e'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~ELSE'), ('OPERATOR', '|'), ('LITERAL', 'w'), ('LITERAL', 'h'), ('OPERATOR', '.'), ('LITERAL', 'i'), ('OPERATOR', '.'), ('LITERAL', 'l'), ('OPERATOR', '.'), ('LITERAL', 'e'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~WHILE'), ('OPERATOR', '|'), ('LITERAL', '='), ('LITERAL', '='), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~EQUALS'), ('OPERATOR', '|'), ('LITERAL', '!'), ('LITERAL', '='), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~NOTEQUAL'), ('OPERATOR', '|'), ('LITERAL', '<'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LESS'), ('OPERATOR', '|'), ('LITERAL', '>'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~GREATER'), ('OPERATOR', '|'), ('LITERAL', '<'), ('LITERAL', '='), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LESSEQ'), ('OPERATOR', '|'), ('LITERAL', '>'), ('LITERAL', '='), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~GREATEREQ'), ('OPERATOR', '|'), ('LITERAL', '+'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~PLUS'), ('OPERATOR', '|'), ('LITERAL', '-'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~MINUS'), ('OPERATOR', '|'), ('LITERAL', '*'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~TIMES'), ('OPERATOR', '|'), ('LITERAL', '/'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~DIVIDE'), ('OPERATOR', '|'), ('LITERAL', '('), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LPAREN'), ('OPERATOR', '|'), ('LITERAL', ')'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~RPAREN'), ('OPERATOR', '|'), ('LITERAL', ':'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~COLON'), ('OPERATOR', '|'), ('LITERAL', ';'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~SEMICOLON'), ('OPERATOR', '|'), ('LITERAL', '='), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~ASSIGN'), ('OPERATOR', '|'), ('LITERAL', ','), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~COMMA'), ('OPERATOR', '|'), ('LITERAL', '{'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LBRACE'), ('OPERATOR', '|'), ('LITERAL', '}'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~RBRACE'), ('OPERATOR', '|'), ('LITERAL', '['), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LBRACKET'), ('OPERATOR', '|'), ('LITERAL', ']'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~RBRACKET'), ('OPERATOR', '|'), ('LITERAL', '#'), ('BRACKET', '[a-zA-Z0-9 \t]'), ('OPERATOR', '+'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~COMMENT'), ('OPERATOR', '|'), ('LITERAL', '['), ('LITERAL', '^'), ('OPERATOR', '.'), ('LITERAL', '\n'), ('OPERATOR', '.'), ('LITERAL', '\r'), ('OPERATOR', '.'), ('LITERAL', ']'), ('OPERATOR', '.'), ('LITERAL', '*'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~STRING'), ('OPERATOR', '|'), ('BRACKET', '[a-zA-Z]'), ('BRACKET', '[a-zA-Z]'), ('BRACKET', '[0-9]'), ('OPERATOR', '|'), ('OPERATOR', '*'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~ID'), ('OPERATOR', '|'), ('BRACKET', '[0-9]'), ('OPERATOR', '+'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~NUMBER'), ('OPERATOR', '|'), ('LITERAL', ' '), ('LITERAL', '\t'), ('OPERATOR', '|'), ('LITERAL', '\n'), ('OPERATOR', '|'), ('LITERAL', '\r'), ('OPERATOR', '|'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~WHITESPACE'), ('OPERATOR', '|')]
+TOKEN INFO ANTES DE ASIGNAR:  IF
+TOKEN INFO ANTES DE ASIGNAR:  IF
+TOKEN INFO ANTES DE ASIGNAR:  ELSE
+TOKEN INFO ANTES DE ASIGNAR:  ELSE
+TOKEN INFO ANTES DE ASIGNAR:  ELSE
+TOKEN INFO ANTES DE ASIGNAR:  ELSE
+TOKEN INFO ANTES DE ASIGNAR:  WHILE
+TOKEN INFO ANTES DE ASIGNAR:  WHILE
+TOKEN INFO ANTES DE ASIGNAR:  WHILE
+TOKEN INFO ANTES DE ASIGNAR:  WHILE
+TOKEN INFO ANTES DE ASIGNAR:  WHILE
+TOKEN INFO ANTES DE ASIGNAR:  EQUALS
+TOKEN INFO ANTES DE ASIGNAR:  EQUALS
+TOKEN INFO ANTES DE ASIGNAR:  NOTEQUAL
+TOKEN INFO ANTES DE ASIGNAR:  NOTEQUAL
+TOKEN INFO ANTES DE ASIGNAR:  LESS
+TOKEN INFO ANTES DE ASIGNAR:  GREATER
+TOKEN INFO ANTES DE ASIGNAR:  LESSEQ
+TOKEN INFO ANTES DE ASIGNAR:  LESSEQ
+TOKEN INFO ANTES DE ASIGNAR:  GREATEREQ
+TOKEN INFO ANTES DE ASIGNAR:  GREATEREQ
+TOKEN INFO ANTES DE ASIGNAR:  PLUS
+TOKEN INFO ANTES DE ASIGNAR:  MINUS
+TOKEN INFO ANTES DE ASIGNAR:  TIMES
+TOKEN INFO ANTES DE ASIGNAR:  DIVIDE
+TOKEN INFO ANTES DE ASIGNAR:  LPAREN
+TOKEN INFO ANTES DE ASIGNAR:  RPAREN
+TOKEN INFO ANTES DE ASIGNAR:  COLON
+TOKEN INFO ANTES DE ASIGNAR:  SEMICOLON
+TOKEN INFO ANTES DE ASIGNAR:  ASSIGN
+TOKEN INFO ANTES DE ASIGNAR:  COMMA
+TOKEN INFO ANTES DE ASIGNAR:  LBRACE
+TOKEN INFO ANTES DE ASIGNAR:  RBRACE
+TOKEN INFO ANTES DE ASIGNAR:  LBRACKET
+TOKEN INFO ANTES DE ASIGNAR:  RBRACKET
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  COMMENT
+TOKEN INFO ANTES DE ASIGNAR:  STRING
+TOKEN INFO ANTES DE ASIGNAR:  STRING
+TOKEN INFO ANTES DE ASIGNAR:  STRING
+TOKEN INFO ANTES DE ASIGNAR:  STRING
+TOKEN INFO ANTES DE ASIGNAR:  STRING
+TOKEN INFO ANTES DE ASIGNAR:  STRING
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  ID
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  NUMBER
+TOKEN INFO ANTES DE ASIGNAR:  WHITESPACE
+TOKEN INFO ANTES DE ASIGNAR:  WHITESPACE
+TOKEN INFO ANTES DE ASIGNAR:  WHITESPACE
+TOKEN INFO ANTES DE ASIGNAR:  WHITESPACE
+
+[main] AST generado:
+((((((((((((((((((((((((((((((i.f).$)~)|(((((e.l).s).e).$)~))|((((((w.h).i).l).e).$)~))|(((=.=).$)~))|(((!.=).$)~))|((<.$)~))|((>.$)~))|(((<.=).$)~))|(((>.=).$)~))|((+.$)~))|((-.$)~))|((*.$)~))|((/.$)~))|(((.$)~))|(().$)~))|((:.$)~))|((;.$)~))|((=.$)~))|((,.$)~))|(({.$)~))|((}.$)~))|(([.$)~))|((].$)~))|(((#.((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((a|b)|c)|d)|e)|f)|g)|h)|i)|j)|k)|l)|m)|n)|o)|p)|q)|r)|s)|t)|u)|v)|w)|x)|y)|z)|A)|B)|C)|D)|E)|F)|G)|H)|I)|J)|K)|L)|M)|N)|O)|P)|Q)|R)|S)|T)|U)|V)|W)|X)|Y)|Z)|0)|1)|2)|3)|4)|5)|6)|7)|8)|9)| )|	).((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((a|b)|c)|d)|e)|f)|g)|h)|i)|j)|k)|l)|m)|n)|o)|p)|q)|r)|s)|t)|u)|v)|w)|x)|y)|z)|A)|B)|C)|D)|E)|F)|G)|H)|I)|J)|K)|L)|M)|N)|O)|P)|Q)|R)|S)|T)|U)|V)|W)|X)|Y)|Z)|0)|1)|2)|3)|4)|5)|6)|7)|8)|9)| )|	)*))).$)~))|((((((([.^).
+).).]).*).$)~))|((((((((((((((((((((((((((((((((((((((((((((((((((((((a|b)|c)|d)|e)|f)|g)|h)|i)|j)|k)|l)|m)|n)|o)|p)|q)|r)|s)|t)|u)|v)|w)|x)|y)|z)|A)|B)|C)|D)|E)|F)|G)|H)|I)|J)|K)|L)|M)|N)|O)|P)|Q)|R)|S)|T)|U)|V)|W)|X)|Y)|Z).(((((((((((((((((((((((((((((((((((((((((((((((((((((a|b)|c)|d)|e)|f)|g)|h)|i)|j)|k)|l)|m)|n)|o)|p)|q)|r)|s)|t)|u)|v)|w)|x)|y)|z)|A)|B)|C)|D)|E)|F)|G)|H)|I)|J)|K)|L)|M)|N)|O)|P)|Q)|R)|S)|T)|U)|V)|W)|X)|Y)|Z)|(((((((((0|1)|2)|3)|4)|5)|6)|7)|8)|9))*)).$)~))|((((((((((((0|1)|2)|3)|4)|5)|6)|7)|8)|9).((((((((((0|1)|2)|3)|4)|5)|6)|7)|8)|9)*)).$)~))|((((( |	)|
+)|).$)~))
+[compute_functions] Hoja 'i' con pos 1 y token_info='IF'
+[compute_functions] Hoja 'f' con pos 2 y token_info='IF'
+[compute_functions] Hoja '$' con pos 3 y token_info='IF'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja 'e' con pos 4 y token_info='ELSE'
+[compute_functions] Hoja 'l' con pos 5 y token_info='ELSE'
+[compute_functions] Hoja 's' con pos 6 y token_info='ELSE'
+[compute_functions] Hoja 'e' con pos 7 y token_info='ELSE'
+[compute_functions] Hoja '$' con pos 8 y token_info='ELSE'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja 'w' con pos 9 y token_info='WHILE'
+[compute_functions] Hoja 'h' con pos 10 y token_info='WHILE'
+[compute_functions] Hoja 'i' con pos 11 y token_info='WHILE'
+[compute_functions] Hoja 'l' con pos 12 y token_info='WHILE'
+[compute_functions] Hoja 'e' con pos 13 y token_info='WHILE'
+[compute_functions] Hoja '$' con pos 14 y token_info='WHILE'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '=' con pos 15 y token_info='EQUALS'
+[compute_functions] Hoja '=' con pos 16 y token_info='EQUALS'
+[compute_functions] Hoja '$' con pos 17 y token_info='EQUALS'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '!' con pos 18 y token_info='NOTEQUAL'
+[compute_functions] Hoja '=' con pos 19 y token_info='NOTEQUAL'
+[compute_functions] Hoja '$' con pos 20 y token_info='NOTEQUAL'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '<' con pos 21 y token_info='LESS'
+[compute_functions] Hoja '$' con pos 22 y token_info='LESS'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '>' con pos 23 y token_info='GREATER'
+[compute_functions] Hoja '$' con pos 24 y token_info='GREATER'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '<' con pos 25 y token_info='LESSEQ'
+[compute_functions] Hoja '=' con pos 26 y token_info='LESSEQ'
+[compute_functions] Hoja '$' con pos 27 y token_info='LESSEQ'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '>' con pos 28 y token_info='GREATEREQ'
+[compute_functions] Hoja '=' con pos 29 y token_info='GREATEREQ'
+[compute_functions] Hoja '$' con pos 30 y token_info='GREATEREQ'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '+' con pos 31 y token_info='PLUS'
+[compute_functions] Hoja '$' con pos 32 y token_info='PLUS'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '-' con pos 33 y token_info='MINUS'
+[compute_functions] Hoja '$' con pos 34 y token_info='MINUS'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '*' con pos 35 y token_info='TIMES'
+[compute_functions] Hoja '$' con pos 36 y token_info='TIMES'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '/' con pos 37 y token_info='DIVIDE'
+[compute_functions] Hoja '$' con pos 38 y token_info='DIVIDE'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '(' con pos 39 y token_info='LPAREN'
+[compute_functions] Hoja '$' con pos 40 y token_info='LPAREN'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja ')' con pos 41 y token_info='RPAREN'
+[compute_functions] Hoja '$' con pos 42 y token_info='RPAREN'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja ':' con pos 43 y token_info='COLON'
+[compute_functions] Hoja '$' con pos 44 y token_info='COLON'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja ';' con pos 45 y token_info='SEMICOLON'
+[compute_functions] Hoja '$' con pos 46 y token_info='SEMICOLON'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '=' con pos 47 y token_info='ASSIGN'
+[compute_functions] Hoja '$' con pos 48 y token_info='ASSIGN'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja ',' con pos 49 y token_info='COMMA'
+[compute_functions] Hoja '$' con pos 50 y token_info='COMMA'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '{' con pos 51 y token_info='LBRACE'
+[compute_functions] Hoja '$' con pos 52 y token_info='LBRACE'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '}' con pos 53 y token_info='RBRACE'
+[compute_functions] Hoja '$' con pos 54 y token_info='RBRACE'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '[' con pos 55 y token_info='LBRACKET'
+[compute_functions] Hoja '$' con pos 56 y token_info='LBRACKET'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja ']' con pos 57 y token_info='RBRACKET'
+[compute_functions] Hoja '$' con pos 58 y token_info='RBRACKET'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '#' con pos 59 y token_info='COMMENT'
+[compute_functions] Hoja 'a' con pos 60 y token_info='COMMENT'
+[compute_functions] Hoja 'b' con pos 61 y token_info='COMMENT'
+[compute_functions] Hoja 'c' con pos 62 y token_info='COMMENT'
+[compute_functions] Hoja 'd' con pos 63 y token_info='COMMENT'
+[compute_functions] Hoja 'e' con pos 64 y token_info='COMMENT'
+[compute_functions] Hoja 'f' con pos 65 y token_info='COMMENT'
+[compute_functions] Hoja 'g' con pos 66 y token_info='COMMENT'
+[compute_functions] Hoja 'h' con pos 67 y token_info='COMMENT'
+[compute_functions] Hoja 'i' con pos 68 y token_info='COMMENT'
+[compute_functions] Hoja 'j' con pos 69 y token_info='COMMENT'
+[compute_functions] Hoja 'k' con pos 70 y token_info='COMMENT'
+[compute_functions] Hoja 'l' con pos 71 y token_info='COMMENT'
+[compute_functions] Hoja 'm' con pos 72 y token_info='COMMENT'
+[compute_functions] Hoja 'n' con pos 73 y token_info='COMMENT'
+[compute_functions] Hoja 'o' con pos 74 y token_info='COMMENT'
+[compute_functions] Hoja 'p' con pos 75 y token_info='COMMENT'
+[compute_functions] Hoja 'q' con pos 76 y token_info='COMMENT'
+[compute_functions] Hoja 'r' con pos 77 y token_info='COMMENT'
+[compute_functions] Hoja 's' con pos 78 y token_info='COMMENT'
+[compute_functions] Hoja 't' con pos 79 y token_info='COMMENT'
+[compute_functions] Hoja 'u' con pos 80 y token_info='COMMENT'
+[compute_functions] Hoja 'v' con pos 81 y token_info='COMMENT'
+[compute_functions] Hoja 'w' con pos 82 y token_info='COMMENT'
+[compute_functions] Hoja 'x' con pos 83 y token_info='COMMENT'
+[compute_functions] Hoja 'y' con pos 84 y token_info='COMMENT'
+[compute_functions] Hoja 'z' con pos 85 y token_info='COMMENT'
+[compute_functions] Hoja 'A' con pos 86 y token_info='COMMENT'
+[compute_functions] Hoja 'B' con pos 87 y token_info='COMMENT'
+[compute_functions] Hoja 'C' con pos 88 y token_info='COMMENT'
+[compute_functions] Hoja 'D' con pos 89 y token_info='COMMENT'
+[compute_functions] Hoja 'E' con pos 90 y token_info='COMMENT'
+[compute_functions] Hoja 'F' con pos 91 y token_info='COMMENT'
+[compute_functions] Hoja 'G' con pos 92 y token_info='COMMENT'
+[compute_functions] Hoja 'H' con pos 93 y token_info='COMMENT'
+[compute_functions] Hoja 'I' con pos 94 y token_info='COMMENT'
+[compute_functions] Hoja 'J' con pos 95 y token_info='COMMENT'
+[compute_functions] Hoja 'K' con pos 96 y token_info='COMMENT'
+[compute_functions] Hoja 'L' con pos 97 y token_info='COMMENT'
+[compute_functions] Hoja 'M' con pos 98 y token_info='COMMENT'
+[compute_functions] Hoja 'N' con pos 99 y token_info='COMMENT'
+[compute_functions] Hoja 'O' con pos 100 y token_info='COMMENT'
+[compute_functions] Hoja 'P' con pos 101 y token_info='COMMENT'
+[compute_functions] Hoja 'Q' con pos 102 y token_info='COMMENT'
+[compute_functions] Hoja 'R' con pos 103 y token_info='COMMENT'
+[compute_functions] Hoja 'S' con pos 104 y token_info='COMMENT'
+[compute_functions] Hoja 'T' con pos 105 y token_info='COMMENT'
+[compute_functions] Hoja 'U' con pos 106 y token_info='COMMENT'
+[compute_functions] Hoja 'V' con pos 107 y token_info='COMMENT'
+[compute_functions] Hoja 'W' con pos 108 y token_info='COMMENT'
+[compute_functions] Hoja 'X' con pos 109 y token_info='COMMENT'
+[compute_functions] Hoja 'Y' con pos 110 y token_info='COMMENT'
+[compute_functions] Hoja 'Z' con pos 111 y token_info='COMMENT'
+[compute_functions] Hoja '0' con pos 112 y token_info='COMMENT'
+[compute_functions] Hoja '1' con pos 113 y token_info='COMMENT'
+[compute_functions] Hoja '2' con pos 114 y token_info='COMMENT'
+[compute_functions] Hoja '3' con pos 115 y token_info='COMMENT'
+[compute_functions] Hoja '4' con pos 116 y token_info='COMMENT'
+[compute_functions] Hoja '5' con pos 117 y token_info='COMMENT'
+[compute_functions] Hoja '6' con pos 118 y token_info='COMMENT'
+[compute_functions] Hoja '7' con pos 119 y token_info='COMMENT'
+[compute_functions] Hoja '8' con pos 120 y token_info='COMMENT'
+[compute_functions] Hoja '9' con pos 121 y token_info='COMMENT'
+[compute_functions] Hoja ' ' con pos 122 y token_info='COMMENT'
+[compute_functions] Hoja '	' con pos 123 y token_info='COMMENT'
+[compute_functions] Hoja 'a' con pos 124 y token_info='COMMENT'
+[compute_functions] Hoja 'b' con pos 125 y token_info='COMMENT'
+[compute_functions] Hoja 'c' con pos 126 y token_info='COMMENT'
+[compute_functions] Hoja 'd' con pos 127 y token_info='COMMENT'
+[compute_functions] Hoja 'e' con pos 128 y token_info='COMMENT'
+[compute_functions] Hoja 'f' con pos 129 y token_info='COMMENT'
+[compute_functions] Hoja 'g' con pos 130 y token_info='COMMENT'
+[compute_functions] Hoja 'h' con pos 131 y token_info='COMMENT'
+[compute_functions] Hoja 'i' con pos 132 y token_info='COMMENT'
+[compute_functions] Hoja 'j' con pos 133 y token_info='COMMENT'
+[compute_functions] Hoja 'k' con pos 134 y token_info='COMMENT'
+[compute_functions] Hoja 'l' con pos 135 y token_info='COMMENT'
+[compute_functions] Hoja 'm' con pos 136 y token_info='COMMENT'
+[compute_functions] Hoja 'n' con pos 137 y token_info='COMMENT'
+[compute_functions] Hoja 'o' con pos 138 y token_info='COMMENT'
+[compute_functions] Hoja 'p' con pos 139 y token_info='COMMENT'
+[compute_functions] Hoja 'q' con pos 140 y token_info='COMMENT'
+[compute_functions] Hoja 'r' con pos 141 y token_info='COMMENT'
+[compute_functions] Hoja 's' con pos 142 y token_info='COMMENT'
+[compute_functions] Hoja 't' con pos 143 y token_info='COMMENT'
+[compute_functions] Hoja 'u' con pos 144 y token_info='COMMENT'
+[compute_functions] Hoja 'v' con pos 145 y token_info='COMMENT'
+[compute_functions] Hoja 'w' con pos 146 y token_info='COMMENT'
+[compute_functions] Hoja 'x' con pos 147 y token_info='COMMENT'
+[compute_functions] Hoja 'y' con pos 148 y token_info='COMMENT'
+[compute_functions] Hoja 'z' con pos 149 y token_info='COMMENT'
+[compute_functions] Hoja 'A' con pos 150 y token_info='COMMENT'
+[compute_functions] Hoja 'B' con pos 151 y token_info='COMMENT'
+[compute_functions] Hoja 'C' con pos 152 y token_info='COMMENT'
+[compute_functions] Hoja 'D' con pos 153 y token_info='COMMENT'
+[compute_functions] Hoja 'E' con pos 154 y token_info='COMMENT'
+[compute_functions] Hoja 'F' con pos 155 y token_info='COMMENT'
+[compute_functions] Hoja 'G' con pos 156 y token_info='COMMENT'
+[compute_functions] Hoja 'H' con pos 157 y token_info='COMMENT'
+[compute_functions] Hoja 'I' con pos 158 y token_info='COMMENT'
+[compute_functions] Hoja 'J' con pos 159 y token_info='COMMENT'
+[compute_functions] Hoja 'K' con pos 160 y token_info='COMMENT'
+[compute_functions] Hoja 'L' con pos 161 y token_info='COMMENT'
+[compute_functions] Hoja 'M' con pos 162 y token_info='COMMENT'
+[compute_functions] Hoja 'N' con pos 163 y token_info='COMMENT'
+[compute_functions] Hoja 'O' con pos 164 y token_info='COMMENT'
+[compute_functions] Hoja 'P' con pos 165 y token_info='COMMENT'
+[compute_functions] Hoja 'Q' con pos 166 y token_info='COMMENT'
+[compute_functions] Hoja 'R' con pos 167 y token_info='COMMENT'
+[compute_functions] Hoja 'S' con pos 168 y token_info='COMMENT'
+[compute_functions] Hoja 'T' con pos 169 y token_info='COMMENT'
+[compute_functions] Hoja 'U' con pos 170 y token_info='COMMENT'
+[compute_functions] Hoja 'V' con pos 171 y token_info='COMMENT'
+[compute_functions] Hoja 'W' con pos 172 y token_info='COMMENT'
+[compute_functions] Hoja 'X' con pos 173 y token_info='COMMENT'
+[compute_functions] Hoja 'Y' con pos 174 y token_info='COMMENT'
+[compute_functions] Hoja 'Z' con pos 175 y token_info='COMMENT'
+[compute_functions] Hoja '0' con pos 176 y token_info='COMMENT'
+[compute_functions] Hoja '1' con pos 177 y token_info='COMMENT'
+[compute_functions] Hoja '2' con pos 178 y token_info='COMMENT'
+[compute_functions] Hoja '3' con pos 179 y token_info='COMMENT'
+[compute_functions] Hoja '4' con pos 180 y token_info='COMMENT'
+[compute_functions] Hoja '5' con pos 181 y token_info='COMMENT'
+[compute_functions] Hoja '6' con pos 182 y token_info='COMMENT'
+[compute_functions] Hoja '7' con pos 183 y token_info='COMMENT'
+[compute_functions] Hoja '8' con pos 184 y token_info='COMMENT'
+[compute_functions] Hoja '9' con pos 185 y token_info='COMMENT'
+[compute_functions] Hoja ' ' con pos 186 y token_info='COMMENT'
+[compute_functions] Hoja '	' con pos 187 y token_info='COMMENT'
+[compute_functions] Hoja '$' con pos 188 y token_info='COMMENT'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '[' con pos 189 y token_info='STRING'
+[compute_functions] Hoja '^' con pos 190 y token_info='STRING'
+[compute_functions] Hoja '
+' con pos 191 y token_info='STRING'
+[compute_functions] Hoja '' con pos 192 y token_info='STRING'
+[compute_functions] Hoja ']' con pos 193 y token_info='STRING'
+[compute_functions] Hoja '*' con pos 194 y token_info='STRING'
+[compute_functions] Hoja '$' con pos 195 y token_info='STRING'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja 'a' con pos 196 y token_info='ID'
+[compute_functions] Hoja 'b' con pos 197 y token_info='ID'
+[compute_functions] Hoja 'c' con pos 198 y token_info='ID'
+[compute_functions] Hoja 'd' con pos 199 y token_info='ID'
+[compute_functions] Hoja 'e' con pos 200 y token_info='ID'
+[compute_functions] Hoja 'f' con pos 201 y token_info='ID'
+[compute_functions] Hoja 'g' con pos 202 y token_info='ID'
+[compute_functions] Hoja 'h' con pos 203 y token_info='ID'
+[compute_functions] Hoja 'i' con pos 204 y token_info='ID'
+[compute_functions] Hoja 'j' con pos 205 y token_info='ID'
+[compute_functions] Hoja 'k' con pos 206 y token_info='ID'
+[compute_functions] Hoja 'l' con pos 207 y token_info='ID'
+[compute_functions] Hoja 'm' con pos 208 y token_info='ID'
+[compute_functions] Hoja 'n' con pos 209 y token_info='ID'
+[compute_functions] Hoja 'o' con pos 210 y token_info='ID'
+[compute_functions] Hoja 'p' con pos 211 y token_info='ID'
+[compute_functions] Hoja 'q' con pos 212 y token_info='ID'
+[compute_functions] Hoja 'r' con pos 213 y token_info='ID'
+[compute_functions] Hoja 's' con pos 214 y token_info='ID'
+[compute_functions] Hoja 't' con pos 215 y token_info='ID'
+[compute_functions] Hoja 'u' con pos 216 y token_info='ID'
+[compute_functions] Hoja 'v' con pos 217 y token_info='ID'
+[compute_functions] Hoja 'w' con pos 218 y token_info='ID'
+[compute_functions] Hoja 'x' con pos 219 y token_info='ID'
+[compute_functions] Hoja 'y' con pos 220 y token_info='ID'
+[compute_functions] Hoja 'z' con pos 221 y token_info='ID'
+[compute_functions] Hoja 'A' con pos 222 y token_info='ID'
+[compute_functions] Hoja 'B' con pos 223 y token_info='ID'
+[compute_functions] Hoja 'C' con pos 224 y token_info='ID'
+[compute_functions] Hoja 'D' con pos 225 y token_info='ID'
+[compute_functions] Hoja 'E' con pos 226 y token_info='ID'
+[compute_functions] Hoja 'F' con pos 227 y token_info='ID'
+[compute_functions] Hoja 'G' con pos 228 y token_info='ID'
+[compute_functions] Hoja 'H' con pos 229 y token_info='ID'
+[compute_functions] Hoja 'I' con pos 230 y token_info='ID'
+[compute_functions] Hoja 'J' con pos 231 y token_info='ID'
+[compute_functions] Hoja 'K' con pos 232 y token_info='ID'
+[compute_functions] Hoja 'L' con pos 233 y token_info='ID'
+[compute_functions] Hoja 'M' con pos 234 y token_info='ID'
+[compute_functions] Hoja 'N' con pos 235 y token_info='ID'
+[compute_functions] Hoja 'O' con pos 236 y token_info='ID'
+[compute_functions] Hoja 'P' con pos 237 y token_info='ID'
+[compute_functions] Hoja 'Q' con pos 238 y token_info='ID'
+[compute_functions] Hoja 'R' con pos 239 y token_info='ID'
+[compute_functions] Hoja 'S' con pos 240 y token_info='ID'
+[compute_functions] Hoja 'T' con pos 241 y token_info='ID'
+[compute_functions] Hoja 'U' con pos 242 y token_info='ID'
+[compute_functions] Hoja 'V' con pos 243 y token_info='ID'
+[compute_functions] Hoja 'W' con pos 244 y token_info='ID'
+[compute_functions] Hoja 'X' con pos 245 y token_info='ID'
+[compute_functions] Hoja 'Y' con pos 246 y token_info='ID'
+[compute_functions] Hoja 'Z' con pos 247 y token_info='ID'
+[compute_functions] Hoja 'a' con pos 248 y token_info='ID'
+[compute_functions] Hoja 'b' con pos 249 y token_info='ID'
+[compute_functions] Hoja 'c' con pos 250 y token_info='ID'
+[compute_functions] Hoja 'd' con pos 251 y token_info='ID'
+[compute_functions] Hoja 'e' con pos 252 y token_info='ID'
+[compute_functions] Hoja 'f' con pos 253 y token_info='ID'
+[compute_functions] Hoja 'g' con pos 254 y token_info='ID'
+[compute_functions] Hoja 'h' con pos 255 y token_info='ID'
+[compute_functions] Hoja 'i' con pos 256 y token_info='ID'
+[compute_functions] Hoja 'j' con pos 257 y token_info='ID'
+[compute_functions] Hoja 'k' con pos 258 y token_info='ID'
+[compute_functions] Hoja 'l' con pos 259 y token_info='ID'
+[compute_functions] Hoja 'm' con pos 260 y token_info='ID'
+[compute_functions] Hoja 'n' con pos 261 y token_info='ID'
+[compute_functions] Hoja 'o' con pos 262 y token_info='ID'
+[compute_functions] Hoja 'p' con pos 263 y token_info='ID'
+[compute_functions] Hoja 'q' con pos 264 y token_info='ID'
+[compute_functions] Hoja 'r' con pos 265 y token_info='ID'
+[compute_functions] Hoja 's' con pos 266 y token_info='ID'
+[compute_functions] Hoja 't' con pos 267 y token_info='ID'
+[compute_functions] Hoja 'u' con pos 268 y token_info='ID'
+[compute_functions] Hoja 'v' con pos 269 y token_info='ID'
+[compute_functions] Hoja 'w' con pos 270 y token_info='ID'
+[compute_functions] Hoja 'x' con pos 271 y token_info='ID'
+[compute_functions] Hoja 'y' con pos 272 y token_info='ID'
+[compute_functions] Hoja 'z' con pos 273 y token_info='ID'
+[compute_functions] Hoja 'A' con pos 274 y token_info='ID'
+[compute_functions] Hoja 'B' con pos 275 y token_info='ID'
+[compute_functions] Hoja 'C' con pos 276 y token_info='ID'
+[compute_functions] Hoja 'D' con pos 277 y token_info='ID'
+[compute_functions] Hoja 'E' con pos 278 y token_info='ID'
+[compute_functions] Hoja 'F' con pos 279 y token_info='ID'
+[compute_functions] Hoja 'G' con pos 280 y token_info='ID'
+[compute_functions] Hoja 'H' con pos 281 y token_info='ID'
+[compute_functions] Hoja 'I' con pos 282 y token_info='ID'
+[compute_functions] Hoja 'J' con pos 283 y token_info='ID'
+[compute_functions] Hoja 'K' con pos 284 y token_info='ID'
+[compute_functions] Hoja 'L' con pos 285 y token_info='ID'
+[compute_functions] Hoja 'M' con pos 286 y token_info='ID'
+[compute_functions] Hoja 'N' con pos 287 y token_info='ID'
+[compute_functions] Hoja 'O' con pos 288 y token_info='ID'
+[compute_functions] Hoja 'P' con pos 289 y token_info='ID'
+[compute_functions] Hoja 'Q' con pos 290 y token_info='ID'
+[compute_functions] Hoja 'R' con pos 291 y token_info='ID'
+[compute_functions] Hoja 'S' con pos 292 y token_info='ID'
+[compute_functions] Hoja 'T' con pos 293 y token_info='ID'
+[compute_functions] Hoja 'U' con pos 294 y token_info='ID'
+[compute_functions] Hoja 'V' con pos 295 y token_info='ID'
+[compute_functions] Hoja 'W' con pos 296 y token_info='ID'
+[compute_functions] Hoja 'X' con pos 297 y token_info='ID'
+[compute_functions] Hoja 'Y' con pos 298 y token_info='ID'
+[compute_functions] Hoja 'Z' con pos 299 y token_info='ID'
+[compute_functions] Hoja '0' con pos 300 y token_info='ID'
+[compute_functions] Hoja '1' con pos 301 y token_info='ID'
+[compute_functions] Hoja '2' con pos 302 y token_info='ID'
+[compute_functions] Hoja '3' con pos 303 y token_info='ID'
+[compute_functions] Hoja '4' con pos 304 y token_info='ID'
+[compute_functions] Hoja '5' con pos 305 y token_info='ID'
+[compute_functions] Hoja '6' con pos 306 y token_info='ID'
+[compute_functions] Hoja '7' con pos 307 y token_info='ID'
+[compute_functions] Hoja '8' con pos 308 y token_info='ID'
+[compute_functions] Hoja '9' con pos 309 y token_info='ID'
+[compute_functions] Hoja '$' con pos 310 y token_info='ID'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '0' con pos 311 y token_info='NUMBER'
+[compute_functions] Hoja '1' con pos 312 y token_info='NUMBER'
+[compute_functions] Hoja '2' con pos 313 y token_info='NUMBER'
+[compute_functions] Hoja '3' con pos 314 y token_info='NUMBER'
+[compute_functions] Hoja '4' con pos 315 y token_info='NUMBER'
+[compute_functions] Hoja '5' con pos 316 y token_info='NUMBER'
+[compute_functions] Hoja '6' con pos 317 y token_info='NUMBER'
+[compute_functions] Hoja '7' con pos 318 y token_info='NUMBER'
+[compute_functions] Hoja '8' con pos 319 y token_info='NUMBER'
+[compute_functions] Hoja '9' con pos 320 y token_info='NUMBER'
+[compute_functions] Hoja '0' con pos 321 y token_info='NUMBER'
+[compute_functions] Hoja '1' con pos 322 y token_info='NUMBER'
+[compute_functions] Hoja '2' con pos 323 y token_info='NUMBER'
+[compute_functions] Hoja '3' con pos 324 y token_info='NUMBER'
+[compute_functions] Hoja '4' con pos 325 y token_info='NUMBER'
+[compute_functions] Hoja '5' con pos 326 y token_info='NUMBER'
+[compute_functions] Hoja '6' con pos 327 y token_info='NUMBER'
+[compute_functions] Hoja '7' con pos 328 y token_info='NUMBER'
+[compute_functions] Hoja '8' con pos 329 y token_info='NUMBER'
+[compute_functions] Hoja '9' con pos 330 y token_info='NUMBER'
+[compute_functions] Hoja '$' con pos 331 y token_info='NUMBER'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja ' ' con pos 332 y token_info='WHITESPACE'
+[compute_functions] Hoja '	' con pos 333 y token_info='WHITESPACE'
+[compute_functions] Hoja '
+' con pos 334 y token_info='WHITESPACE'
+[compute_functions] Hoja '' con pos 335 y token_info='WHITESPACE'
+[compute_functions] Hoja '$' con pos 336 y token_info='WHITESPACE'
+[compute_functions] Nodo TOKEN con info: 'None'
+[build_dfa] Estado 24 es aceptante para 'ID'
+[build_dfa] Estado 23 es aceptante para 'WHITESPACE'
+[build_dfa] Estado 25 es aceptante para 'COMMENT'
+[build_dfa] Estado 21 es aceptante para 'RBRACKET'
+[build_dfa] Estado 20 es aceptante para 'NUMBER'
+[build_dfa] Estado 19 es aceptante para 'LBRACKET'
+[build_dfa] Estado 30 es aceptante para 'STRING'
+[build_dfa] Estado 18 es aceptante para 'RBRACE'
+[build_dfa] Estado 17 es aceptante para 'LBRACE'
+[build_dfa] Estado 16 es aceptante para 'COMMA'
+[build_dfa] Estado 15 es aceptante para 'SEMICOLON'
+[build_dfa] Estado 14 es aceptante para 'COLON'
+[build_dfa] Estado 13 es aceptante para 'RPAREN'
+[build_dfa] Estado 12 es aceptante para 'LPAREN'
+[build_dfa] Estado 11 es aceptante para 'DIVIDE'
+[build_dfa] Estado 10 es aceptante para 'TIMES'
+[build_dfa] Estado 9 es aceptante para 'MINUS'
+[build_dfa] Estado 8 es aceptante para 'PLUS'
+[build_dfa] Estado 7 es aceptante para 'GREATER'
+[build_dfa] Estado 31 es aceptante para 'GREATEREQ'
+[build_dfa] Estado 6 es aceptante para 'LESS'
+[build_dfa] Estado 32 es aceptante para 'LESSEQ'
+[build_dfa] Estado 33 es aceptante para 'NOTEQUAL'
+[build_dfa] Estado 4 es aceptante para 'ASSIGN'
+[build_dfa] Estado 34 es aceptante para 'EQUALS'
+[build_dfa] Estado 3 es aceptante para 'ID'
+[build_dfa] Estado 35 es aceptante para 'ID'
+[build_dfa] Estado 36 es aceptante para 'ID'
+[build_dfa] Estado 37 es aceptante para 'ID'
+[build_dfa] Estado 38 es aceptante para 'WHILE'
+[build_dfa] Estado 2 es aceptante para 'ID'
+[build_dfa] Estado 39 es aceptante para 'ID'
+[build_dfa] Estado 40 es aceptante para 'ID'
+[build_dfa] Estado 41 es aceptante para 'ELSE'
+[build_dfa] Estado 1 es aceptante para 'ID'
+[build_dfa] Estado 42 es aceptante para 'IF'
+
+[main] Iniciando minimización del AFD...
+[main] Minimización completada.
+
+[min] Estados aceptantes después de minimización:
+  Estado 6 -> ID
+  Estado 26 -> WHITESPACE
+  Estado 27 -> COMMENT
+  Estado 25 -> RBRACKET
+  Estado 24 -> NUMBER
+  Estado 23 -> LBRACKET
+  Estado 28 -> STRING
+  Estado 22 -> RBRACE
+  Estado 21 -> LBRACE
+  Estado 20 -> COMMA
+  Estado 19 -> SEMICOLON
+  Estado 18 -> COLON
+  Estado 17 -> RPAREN
+  Estado 16 -> LPAREN
+  Estado 15 -> DIVIDE
+  Estado 14 -> TIMES
+  Estado 13 -> MINUS
+  Estado 12 -> PLUS
+  Estado 11 -> GREATER
+  Estado 29 -> GREATEREQ
+  Estado 10 -> LESS
+  Estado 30 -> LESSEQ
+  Estado 31 -> NOTEQUAL
+  Estado 9 -> ASSIGN
+  Estado 32 -> EQUALS
+  Estado 4 -> ID
+  Estado 3 -> ID
+  Estado 2 -> ID
+  Estado 8 -> ID
+  Estado 33 -> WHILE
+  Estado 5 -> ID
+  Estado 1 -> ID
+  Estado 7 -> ID
+  Estado 34 -> ELSE
+  Estado 0 -> ID
+  Estado 35 -> IF
+
+[main] Contenido del archivo 'test2.py':
+# Simulacion de codigo fuente
+if variable1 >= 100:
+    {
+        while count != 0:
+            {
+                result = result + inputList[ count ];
+                count = count + 1;
+            }
+    }
+else:
+    {
+        error_code = 500;
+    }
+
+# Operaciones compuestas
+total = subtotal + impuestos * (ajuste - descuento) / tarifa;
+
+# Prueba con estructuras anidadas
+if (x > 0):
+{
+    while (x != y):
+    {
+        x = x - 1;
+        y = y + 1;
+    }
+}
+
+
+
+[main] Contenido raw (repr): '# Simulacion de codigo fuente\r\nif variable1 >= 100:\r\n    {\r\n        while count != 0:\r\n            {\r\n                result = result + inputList[ count ];\r\n                count = count + 1;\r\n            }\r\n    }\r\nelse:\r\n    {\r\n        error_code = 500;\r\n    }\r\n\r\n# Operaciones compuestas\r\ntotal = subtotal + impuestos * (ajuste - descuento) / tarifa;\r\n\r\n# Prueba con estructuras anidadas\r\nif (x > 0):\r\n{\r\n    while (x != y):\r\n    {\r\n        x = x - 1;\r\n        y = y + 1;\r\n    }\r\n}\r\n'
+
+[Error léxico] Ha ocurrido un error en la línea 12, columna 14:
+
+ Línea actual:
+          error_code = 500;
+               ^
+  Token no reconocido: '_'
+
+  El carácter no forma parte de ningún token definido en la gramática.
