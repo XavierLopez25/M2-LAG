@@ -23,9 +23,25 @@ def parse_yalex(filepath: str):
     lets = {}  # Diccionario para almacenar las variables let
     rules = {}  # Diccionario para almacenar las reglas finales
 
-    with open(filepath, 'r', encoding='utf-8') as file:
-        lines = [line.strip() for line in file if line.strip()]  # Eliminar líneas vacías
+    header = ""
+    trailer = ""
 
+    with open(filepath, 'r', encoding='utf-8') as file:
+        lines = file.read()
+
+   # Buscar todos los bloques { ... } (no confundir con tokens de regex)
+    all_blocks = re.findall(r'\{[^{}]*\}', lines, re.DOTALL)
+
+    if all_blocks:
+        header = all_blocks[0]
+        trailer = all_blocks[-1] if len(all_blocks) > 1 else ""
+
+    # Eliminar bloques de header y trailer del contenido
+    cleaned_content = lines.replace(header, '', 1)
+    if trailer and trailer != header:
+        cleaned_content = cleaned_content.replace(trailer, '', 1)
+
+    lines = [line.strip() for line in cleaned_content.splitlines() if line.strip()]
     mode = None
     for line in lines:
         if line.startswith('let'):
@@ -49,4 +65,8 @@ def parse_yalex(filepath: str):
                 regex = codecs.decode(regex, 'unicode_escape')
                 rules[regex] = token
 
-    return rules
+    return {
+        'rules': rules,
+        'header': header.strip(),
+        'trailer': trailer.strip()
+    }

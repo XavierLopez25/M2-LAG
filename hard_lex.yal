@@ -1,3 +1,8 @@
+{ 
+    import numpy as np
+    import pandas as pd
+}
+
 let letter = [a-zA-Z]
 let digit = [0-9]
 let identifier = letter (letter | digit)*
@@ -29,7 +34,11 @@ rule tokens =
     "[" $ { return LBRACKET }
     "]" $ { return RBRACKET }
     \# ([a-zA-Z0-9 \t]+) $ { return COMMENT }
-    "\"[^\\"\n\r]*\"" $ { return STRING }
     identifier $ { return ID }
     number $ { return NUMBER }
     whitespace $ { return WHITESPACE }
+
+{ 
+    funcion auxiliar 
+    otra funcion auxiliar
+}

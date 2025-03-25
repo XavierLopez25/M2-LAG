@@ -1,0 +1,41 @@
+import numpy as np
+import pandas as pd
+
+# ojala que funcione
+
+if(x1 >= 100):
+
+{
+
+    while(counter1 != 0)
+
+    {
+
+        result = result + value123;
+
+        temp = (x1 - y1) * 5 / 3;
+
+        array[10] = valueList[ index ];
+
+    }
+
+}
+
+else:
+
+{
+
+    # Comentario dentro de bloque else
+
+    errorCode = 404;
+
+}
+
+
+
+finalResult = result1 + temp2 * (value - offset) / scale;
+
+
+
+funcion auxiliar 
+otra funcion auxiliar

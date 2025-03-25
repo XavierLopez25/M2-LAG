@@ -155,19 +155,32 @@ def combine_rules(rules):
         token_priority[token] = i
         print(f"[combine_rules] Regla procesada: {regex} -> {alternative}")
         combined.append(alternative)
+
     combined_regex = "(" + "|".join(combined) + ")"
     print(f"[combine_rules] Regex combinada: {combined_regex}")
     return combined_regex, token_priority
 
+def remove_braces_and_dedent(block: str) -> str:
+    import textwrap
+    match = re.match(r'^\{(.*)\}$', block.strip(), re.DOTALL)
+    if match:
+        content = match.group(1)
+        return textwrap.dedent(content).strip()
+    return block.strip()
+
 def main():
     yalex_file = "hard_lex.yal"
-    archivo_a_procesar = "test2.py"
+    archivo_a_procesar = "teste1.txt"
 
     original_stdout = sys.stdout
     with open("console_output.txt", "w", encoding="utf-8") as f:
         sys.stdout = f
 
-        rules = parse_yalex(yalex_file)
+        parsed = parse_yalex(yalex_file)
+        rules = parsed['rules']
+        header = parsed.get('header', '')
+        trailer = parsed.get('trailer', '')
+
         print("\nReglas extraídas:")
         for regex, token in rules.items():
             print(f"  {regex} -> {token}")
@@ -222,7 +235,9 @@ def main():
         tabla_simbolos = SymbolTable()
         try:
             contenido = read_file(archivo_a_procesar)
-            print(f"\n[main] Contenido del archivo '{archivo_a_procesar}':\n{contenido}\n")
+
+            print(f"\n[main] Contenido procesado con header/trailer:\n{contenido}\n")
+
             tokens = scan_input(min_transitions, min_initial, min_accepting, contenido, tabla_simbolos, {v: v for v in min_transitions})
             if tokens is not None:
                 print("\nTokens reconocidos:")
@@ -231,7 +246,15 @@ def main():
                     print(f"  {tipo}: '{printable_lex}'")
                 print("\nTabla de símbolos generada:")
                 tabla_simbolos.print_table()
-        
+
+            header_clean = remove_braces_and_dedent(header)
+            trailer_clean = remove_braces_and_dedent(trailer)
+
+            if header or trailer:
+                    with open("lexer.txt", "w", encoding="utf-8") as out:
+                        out.write(f"{header_clean}\n\n{contenido}\n\n{trailer_clean}")
+                        print("\n[main] Archivo 'lexer.txt' generado con header y trailer.")
+
         except Exception as e:
             print(f"[main] Error al leer o procesar archivo: {e}")
 

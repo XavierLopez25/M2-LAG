@@ -14,7 +14,7 @@ if(config1 >= 10):
 else:
 {
     errorFlag = 1;
-    message = "Limite excedido";
+    result1 = 0;
 }
 
 finalValue = result1 + offset * (adjustment - delta) / scale123;

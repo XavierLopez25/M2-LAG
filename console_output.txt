@@ -24,8 +24,6 @@ Reglas extraídas:
   "[" $ -> LBRACKET
   "]" $ -> RBRACKET
   \# ([a-zA-Z0-9 	]+) $ -> COMMENT
-  ""[^\"
-]*"" $ -> STRING
   ([a-zA-Z]) (([a-zA-Z]) | ([0-9]))* $ -> ID
   (([0-9])+) $ -> NUMBER
   (" " | "	" | "
@@ -54,18 +52,14 @@ Reglas extraídas:
 [combine_rules] Regla procesada: "[" -> (\[.\$)~LBRACKET
 [combine_rules] Regla procesada: "]" -> (\].\$)~RBRACKET
 [combine_rules] Regla procesada: \# ([a-zA-Z0-9 	]+) -> (\#([a-zA-Z0-9 	]+).\$)~COMMENT
-[combine_rules] Regla procesada: ""[^\"
-]*"" -> ("\[\^"\
-\\]\*".\$)~STRING
 [combine_rules] Regla procesada: ([a-zA-Z]) (([a-zA-Z]) | ([0-9]))* -> (([a-zA-Z])(([a-zA-Z])|([0-9]))*.\$)~ID
 [combine_rules] Regla procesada: (([0-9])+) -> ((([0-9])+).\$)~NUMBER
 [combine_rules] Regla procesada: (" " | "	" | "
 " | "") -> ((" "|"	"|"
 "|"").\$)~WHITESPACE
-[combine_rules] Regex combinada: ((if.\$)~IF|(else.\$)~ELSE|(while.\$)~WHILE|(==.\$)~EQUALS|(!=.\$)~NOTEQUAL|(<.\$)~LESS|(>.\$)~GREATER|(<=.\$)~LESSEQ|(>=.\$)~GREATEREQ|(\+.\$)~PLUS|(\-.\$)~MINUS|(\*.\$)~TIMES|(/.\$)~DIVIDE|(\(.\$)~LPAREN|(\).\$)~RPAREN|(:.\$)~COLON|(;.\$)~SEMICOLON|(=.\$)~ASSIGN|(,.\$)~COMMA|(\{.\$)~LBRACE|(\}.\$)~RBRACE|(\[.\$)~LBRACKET|(\].\$)~RBRACKET|(\#([a-zA-Z0-9 	]+).\$)~COMMENT|("\[\^"\
-\\]\*".\$)~STRING|(([a-zA-Z])(([a-zA-Z])|([0-9]))*.\$)~ID|((([0-9])+).\$)~NUMBER|((" "|"	"|"
+[combine_rules] Regex combinada: ((if.\$)~IF|(else.\$)~ELSE|(while.\$)~WHILE|(==.\$)~EQUALS|(!=.\$)~NOTEQUAL|(<.\$)~LESS|(>.\$)~GREATER|(<=.\$)~LESSEQ|(>=.\$)~GREATEREQ|(\+.\$)~PLUS|(\-.\$)~MINUS|(\*.\$)~TIMES|(/.\$)~DIVIDE|(\(.\$)~LPAREN|(\).\$)~RPAREN|(:.\$)~COLON|(;.\$)~SEMICOLON|(=.\$)~ASSIGN|(,.\$)~COMMA|(\{.\$)~LBRACE|(\}.\$)~RBRACE|(\[.\$)~LBRACKET|(\].\$)~RBRACKET|(\#([a-zA-Z0-9 	]+).\$)~COMMENT|(([a-zA-Z])(([a-zA-Z])|([0-9]))*.\$)~ID|((([0-9])+).\$)~NUMBER|((" "|"	"|"
 "|"").\$)~WHITESPACE)
-[main] Postfix generado: [('LITERAL', 'i'), ('LITERAL', 'f'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~IF'), ('LITERAL', 'e'), ('LITERAL', 'l'), ('OPERATOR', '.'), ('LITERAL', 's'), ('OPERATOR', '.'), ('LITERAL', 'e'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~ELSE'), ('OPERATOR', '|'), ('LITERAL', 'w'), ('LITERAL', 'h'), ('OPERATOR', '.'), ('LITERAL', 'i'), ('OPERATOR', '.'), ('LITERAL', 'l'), ('OPERATOR', '.'), ('LITERAL', 'e'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~WHILE'), ('OPERATOR', '|'), ('LITERAL', '='), ('LITERAL', '='), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~EQUALS'), ('OPERATOR', '|'), ('LITERAL', '!'), ('LITERAL', '='), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~NOTEQUAL'), ('OPERATOR', '|'), ('LITERAL', '<'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LESS'), ('OPERATOR', '|'), ('LITERAL', '>'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~GREATER'), ('OPERATOR', '|'), ('LITERAL', '<'), ('LITERAL', '='), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LESSEQ'), ('OPERATOR', '|'), ('LITERAL', '>'), ('LITERAL', '='), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~GREATEREQ'), ('OPERATOR', '|'), ('LITERAL', '+'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~PLUS'), ('OPERATOR', '|'), ('LITERAL', '-'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~MINUS'), ('OPERATOR', '|'), ('LITERAL', '*'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~TIMES'), ('OPERATOR', '|'), ('LITERAL', '/'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~DIVIDE'), ('OPERATOR', '|'), ('LITERAL', '('), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LPAREN'), ('OPERATOR', '|'), ('LITERAL', ')'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~RPAREN'), ('OPERATOR', '|'), ('LITERAL', ':'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~COLON'), ('OPERATOR', '|'), ('LITERAL', ';'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~SEMICOLON'), ('OPERATOR', '|'), ('LITERAL', '='), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~ASSIGN'), ('OPERATOR', '|'), ('LITERAL', ','), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~COMMA'), ('OPERATOR', '|'), ('LITERAL', '{'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LBRACE'), ('OPERATOR', '|'), ('LITERAL', '}'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~RBRACE'), ('OPERATOR', '|'), ('LITERAL', '['), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LBRACKET'), ('OPERATOR', '|'), ('LITERAL', ']'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~RBRACKET'), ('OPERATOR', '|'), ('LITERAL', '#'), ('BRACKET', '[a-zA-Z0-9 \t]'), ('OPERATOR', '+'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~COMMENT'), ('OPERATOR', '|'), ('LITERAL', '['), ('LITERAL', '^'), ('OPERATOR', '.'), ('LITERAL', '\n'), ('OPERATOR', '.'), ('LITERAL', '\r'), ('OPERATOR', '.'), ('LITERAL', ']'), ('OPERATOR', '.'), ('LITERAL', '*'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~STRING'), ('OPERATOR', '|'), ('BRACKET', '[a-zA-Z]'), ('BRACKET', '[a-zA-Z]'), ('BRACKET', '[0-9]'), ('OPERATOR', '|'), ('OPERATOR', '*'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~ID'), ('OPERATOR', '|'), ('BRACKET', '[0-9]'), ('OPERATOR', '+'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~NUMBER'), ('OPERATOR', '|'), ('LITERAL', ' '), ('LITERAL', '\t'), ('OPERATOR', '|'), ('LITERAL', '\n'), ('OPERATOR', '|'), ('LITERAL', '\r'), ('OPERATOR', '|'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~WHITESPACE'), ('OPERATOR', '|')]
+[main] Postfix generado: [('LITERAL', 'i'), ('LITERAL', 'f'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~IF'), ('LITERAL', 'e'), ('LITERAL', 'l'), ('OPERATOR', '.'), ('LITERAL', 's'), ('OPERATOR', '.'), ('LITERAL', 'e'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~ELSE'), ('OPERATOR', '|'), ('LITERAL', 'w'), ('LITERAL', 'h'), ('OPERATOR', '.'), ('LITERAL', 'i'), ('OPERATOR', '.'), ('LITERAL', 'l'), ('OPERATOR', '.'), ('LITERAL', 'e'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~WHILE'), ('OPERATOR', '|'), ('LITERAL', '='), ('LITERAL', '='), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~EQUALS'), ('OPERATOR', '|'), ('LITERAL', '!'), ('LITERAL', '='), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~NOTEQUAL'), ('OPERATOR', '|'), ('LITERAL', '<'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LESS'), ('OPERATOR', '|'), ('LITERAL', '>'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~GREATER'), ('OPERATOR', '|'), ('LITERAL', '<'), ('LITERAL', '='), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LESSEQ'), ('OPERATOR', '|'), ('LITERAL', '>'), ('LITERAL', '='), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~GREATEREQ'), ('OPERATOR', '|'), ('LITERAL', '+'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~PLUS'), ('OPERATOR', '|'), ('LITERAL', '-'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~MINUS'), ('OPERATOR', '|'), ('LITERAL', '*'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~TIMES'), ('OPERATOR', '|'), ('LITERAL', '/'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~DIVIDE'), ('OPERATOR', '|'), ('LITERAL', '('), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LPAREN'), ('OPERATOR', '|'), ('LITERAL', ')'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~RPAREN'), ('OPERATOR', '|'), ('LITERAL', ':'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~COLON'), ('OPERATOR', '|'), ('LITERAL', ';'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~SEMICOLON'), ('OPERATOR', '|'), ('LITERAL', '='), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~ASSIGN'), ('OPERATOR', '|'), ('LITERAL', ','), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~COMMA'), ('OPERATOR', '|'), ('LITERAL', '{'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LBRACE'), ('OPERATOR', '|'), ('LITERAL', '}'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~RBRACE'), ('OPERATOR', '|'), ('LITERAL', '['), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~LBRACKET'), ('OPERATOR', '|'), ('LITERAL', ']'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~RBRACKET'), ('OPERATOR', '|'), ('LITERAL', '#'), ('BRACKET', '[a-zA-Z0-9 \t]'), ('OPERATOR', '+'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~COMMENT'), ('OPERATOR', '|'), ('BRACKET', '[a-zA-Z]'), ('BRACKET', '[a-zA-Z]'), ('BRACKET', '[0-9]'), ('OPERATOR', '|'), ('OPERATOR', '*'), ('OPERATOR', '.'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~ID'), ('OPERATOR', '|'), ('BRACKET', '[0-9]'), ('OPERATOR', '+'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~NUMBER'), ('OPERATOR', '|'), ('LITERAL', ' '), ('LITERAL', '\t'), ('OPERATOR', '|'), ('LITERAL', '\n'), ('OPERATOR', '|'), ('LITERAL', '\r'), ('OPERATOR', '|'), ('LITERAL', '$'), ('OPERATOR', '.'), ('TOKEN', '~WHITESPACE'), ('OPERATOR', '|')]
 TOKEN INFO ANTES DE ASIGNAR:  IF
 TOKEN INFO ANTES DE ASIGNAR:  IF
 TOKEN INFO ANTES DE ASIGNAR:  ELSE
@@ -231,12 +225,6 @@ TOKEN INFO ANTES DE ASIGNAR:  COMMENT
 TOKEN INFO ANTES DE ASIGNAR:  COMMENT
 TOKEN INFO ANTES DE ASIGNAR:  COMMENT
 TOKEN INFO ANTES DE ASIGNAR:  COMMENT
-TOKEN INFO ANTES DE ASIGNAR:  STRING
-TOKEN INFO ANTES DE ASIGNAR:  STRING
-TOKEN INFO ANTES DE ASIGNAR:  STRING
-TOKEN INFO ANTES DE ASIGNAR:  STRING
-TOKEN INFO ANTES DE ASIGNAR:  STRING
-TOKEN INFO ANTES DE ASIGNAR:  STRING
 TOKEN INFO ANTES DE ASIGNAR:  ID
 TOKEN INFO ANTES DE ASIGNAR:  ID
 TOKEN INFO ANTES DE ASIGNAR:  ID
@@ -379,8 +367,7 @@ TOKEN INFO ANTES DE ASIGNAR:  WHITESPACE
 TOKEN INFO ANTES DE ASIGNAR:  WHITESPACE
 
 [main] AST generado:
-((((((((((((((((((((((((((((((i.f).$)~)|(((((e.l).s).e).$)~))|((((((w.h).i).l).e).$)~))|(((=.=).$)~))|(((!.=).$)~))|((<.$)~))|((>.$)~))|(((<.=).$)~))|(((>.=).$)~))|((+.$)~))|((-.$)~))|((*.$)~))|((/.$)~))|(((.$)~))|(().$)~))|((:.$)~))|((;.$)~))|((=.$)~))|((,.$)~))|(({.$)~))|((}.$)~))|(([.$)~))|((].$)~))|(((#.((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((a|b)|c)|d)|e)|f)|g)|h)|i)|j)|k)|l)|m)|n)|o)|p)|q)|r)|s)|t)|u)|v)|w)|x)|y)|z)|A)|B)|C)|D)|E)|F)|G)|H)|I)|J)|K)|L)|M)|N)|O)|P)|Q)|R)|S)|T)|U)|V)|W)|X)|Y)|Z)|0)|1)|2)|3)|4)|5)|6)|7)|8)|9)| )|	).((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((a|b)|c)|d)|e)|f)|g)|h)|i)|j)|k)|l)|m)|n)|o)|p)|q)|r)|s)|t)|u)|v)|w)|x)|y)|z)|A)|B)|C)|D)|E)|F)|G)|H)|I)|J)|K)|L)|M)|N)|O)|P)|Q)|R)|S)|T)|U)|V)|W)|X)|Y)|Z)|0)|1)|2)|3)|4)|5)|6)|7)|8)|9)| )|	)*))).$)~))|((((((([.^).
-).).]).*).$)~))|((((((((((((((((((((((((((((((((((((((((((((((((((((((a|b)|c)|d)|e)|f)|g)|h)|i)|j)|k)|l)|m)|n)|o)|p)|q)|r)|s)|t)|u)|v)|w)|x)|y)|z)|A)|B)|C)|D)|E)|F)|G)|H)|I)|J)|K)|L)|M)|N)|O)|P)|Q)|R)|S)|T)|U)|V)|W)|X)|Y)|Z).(((((((((((((((((((((((((((((((((((((((((((((((((((((a|b)|c)|d)|e)|f)|g)|h)|i)|j)|k)|l)|m)|n)|o)|p)|q)|r)|s)|t)|u)|v)|w)|x)|y)|z)|A)|B)|C)|D)|E)|F)|G)|H)|I)|J)|K)|L)|M)|N)|O)|P)|Q)|R)|S)|T)|U)|V)|W)|X)|Y)|Z)|(((((((((0|1)|2)|3)|4)|5)|6)|7)|8)|9))*)).$)~))|((((((((((((0|1)|2)|3)|4)|5)|6)|7)|8)|9).((((((((((0|1)|2)|3)|4)|5)|6)|7)|8)|9)*)).$)~))|((((( |	)|
+(((((((((((((((((((((((((((((i.f).$)~)|(((((e.l).s).e).$)~))|((((((w.h).i).l).e).$)~))|(((=.=).$)~))|(((!.=).$)~))|((<.$)~))|((>.$)~))|(((<.=).$)~))|(((>.=).$)~))|((+.$)~))|((-.$)~))|((*.$)~))|((/.$)~))|(((.$)~))|(().$)~))|((:.$)~))|((;.$)~))|((=.$)~))|((,.$)~))|(({.$)~))|((}.$)~))|(([.$)~))|((].$)~))|(((#.((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((a|b)|c)|d)|e)|f)|g)|h)|i)|j)|k)|l)|m)|n)|o)|p)|q)|r)|s)|t)|u)|v)|w)|x)|y)|z)|A)|B)|C)|D)|E)|F)|G)|H)|I)|J)|K)|L)|M)|N)|O)|P)|Q)|R)|S)|T)|U)|V)|W)|X)|Y)|Z)|0)|1)|2)|3)|4)|5)|6)|7)|8)|9)| )|	).((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((a|b)|c)|d)|e)|f)|g)|h)|i)|j)|k)|l)|m)|n)|o)|p)|q)|r)|s)|t)|u)|v)|w)|x)|y)|z)|A)|B)|C)|D)|E)|F)|G)|H)|I)|J)|K)|L)|M)|N)|O)|P)|Q)|R)|S)|T)|U)|V)|W)|X)|Y)|Z)|0)|1)|2)|3)|4)|5)|6)|7)|8)|9)| )|	)*))).$)~))|((((((((((((((((((((((((((((((((((((((((((((((((((((((a|b)|c)|d)|e)|f)|g)|h)|i)|j)|k)|l)|m)|n)|o)|p)|q)|r)|s)|t)|u)|v)|w)|x)|y)|z)|A)|B)|C)|D)|E)|F)|G)|H)|I)|J)|K)|L)|M)|N)|O)|P)|Q)|R)|S)|T)|U)|V)|W)|X)|Y)|Z).(((((((((((((((((((((((((((((((((((((((((((((((((((((a|b)|c)|d)|e)|f)|g)|h)|i)|j)|k)|l)|m)|n)|o)|p)|q)|r)|s)|t)|u)|v)|w)|x)|y)|z)|A)|B)|C)|D)|E)|F)|G)|H)|I)|J)|K)|L)|M)|N)|O)|P)|Q)|R)|S)|T)|U)|V)|W)|X)|Y)|Z)|(((((((((0|1)|2)|3)|4)|5)|6)|7)|8)|9))*)).$)~))|((((((((((((0|1)|2)|3)|4)|5)|6)|7)|8)|9).((((((((((0|1)|2)|3)|4)|5)|6)|7)|8)|9)*)).$)~))|((((( |	)|
 )|).$)~))
 [compute_functions] Hoja 'i' con pos 1 y token_info='IF'
 [compute_functions] Hoja 'f' con pos 2 y token_info='IF'
@@ -594,170 +581,160 @@ TOKEN INFO ANTES DE ASIGNAR:  WHITESPACE
 [compute_functions] Hoja '	' con pos 187 y token_info='COMMENT'
 [compute_functions] Hoja '$' con pos 188 y token_info='COMMENT'
 [compute_functions] Nodo TOKEN con info: 'None'
-[compute_functions] Hoja '[' con pos 189 y token_info='STRING'
-[compute_functions] Hoja '^' con pos 190 y token_info='STRING'
+[compute_functions] Hoja 'a' con pos 189 y token_info='ID'
+[compute_functions] Hoja 'b' con pos 190 y token_info='ID'
+[compute_functions] Hoja 'c' con pos 191 y token_info='ID'
+[compute_functions] Hoja 'd' con pos 192 y token_info='ID'
+[compute_functions] Hoja 'e' con pos 193 y token_info='ID'
+[compute_functions] Hoja 'f' con pos 194 y token_info='ID'
+[compute_functions] Hoja 'g' con pos 195 y token_info='ID'
+[compute_functions] Hoja 'h' con pos 196 y token_info='ID'
+[compute_functions] Hoja 'i' con pos 197 y token_info='ID'
+[compute_functions] Hoja 'j' con pos 198 y token_info='ID'
+[compute_functions] Hoja 'k' con pos 199 y token_info='ID'
+[compute_functions] Hoja 'l' con pos 200 y token_info='ID'
+[compute_functions] Hoja 'm' con pos 201 y token_info='ID'
+[compute_functions] Hoja 'n' con pos 202 y token_info='ID'
+[compute_functions] Hoja 'o' con pos 203 y token_info='ID'
+[compute_functions] Hoja 'p' con pos 204 y token_info='ID'
+[compute_functions] Hoja 'q' con pos 205 y token_info='ID'
+[compute_functions] Hoja 'r' con pos 206 y token_info='ID'
+[compute_functions] Hoja 's' con pos 207 y token_info='ID'
+[compute_functions] Hoja 't' con pos 208 y token_info='ID'
+[compute_functions] Hoja 'u' con pos 209 y token_info='ID'
+[compute_functions] Hoja 'v' con pos 210 y token_info='ID'
+[compute_functions] Hoja 'w' con pos 211 y token_info='ID'
+[compute_functions] Hoja 'x' con pos 212 y token_info='ID'
+[compute_functions] Hoja 'y' con pos 213 y token_info='ID'
+[compute_functions] Hoja 'z' con pos 214 y token_info='ID'
+[compute_functions] Hoja 'A' con pos 215 y token_info='ID'
+[compute_functions] Hoja 'B' con pos 216 y token_info='ID'
+[compute_functions] Hoja 'C' con pos 217 y token_info='ID'
+[compute_functions] Hoja 'D' con pos 218 y token_info='ID'
+[compute_functions] Hoja 'E' con pos 219 y token_info='ID'
+[compute_functions] Hoja 'F' con pos 220 y token_info='ID'
+[compute_functions] Hoja 'G' con pos 221 y token_info='ID'
+[compute_functions] Hoja 'H' con pos 222 y token_info='ID'
+[compute_functions] Hoja 'I' con pos 223 y token_info='ID'
+[compute_functions] Hoja 'J' con pos 224 y token_info='ID'
+[compute_functions] Hoja 'K' con pos 225 y token_info='ID'
+[compute_functions] Hoja 'L' con pos 226 y token_info='ID'
+[compute_functions] Hoja 'M' con pos 227 y token_info='ID'
+[compute_functions] Hoja 'N' con pos 228 y token_info='ID'
+[compute_functions] Hoja 'O' con pos 229 y token_info='ID'
+[compute_functions] Hoja 'P' con pos 230 y token_info='ID'
+[compute_functions] Hoja 'Q' con pos 231 y token_info='ID'
+[compute_functions] Hoja 'R' con pos 232 y token_info='ID'
+[compute_functions] Hoja 'S' con pos 233 y token_info='ID'
+[compute_functions] Hoja 'T' con pos 234 y token_info='ID'
+[compute_functions] Hoja 'U' con pos 235 y token_info='ID'
+[compute_functions] Hoja 'V' con pos 236 y token_info='ID'
+[compute_functions] Hoja 'W' con pos 237 y token_info='ID'
+[compute_functions] Hoja 'X' con pos 238 y token_info='ID'
+[compute_functions] Hoja 'Y' con pos 239 y token_info='ID'
+[compute_functions] Hoja 'Z' con pos 240 y token_info='ID'
+[compute_functions] Hoja 'a' con pos 241 y token_info='ID'
+[compute_functions] Hoja 'b' con pos 242 y token_info='ID'
+[compute_functions] Hoja 'c' con pos 243 y token_info='ID'
+[compute_functions] Hoja 'd' con pos 244 y token_info='ID'
+[compute_functions] Hoja 'e' con pos 245 y token_info='ID'
+[compute_functions] Hoja 'f' con pos 246 y token_info='ID'
+[compute_functions] Hoja 'g' con pos 247 y token_info='ID'
+[compute_functions] Hoja 'h' con pos 248 y token_info='ID'
+[compute_functions] Hoja 'i' con pos 249 y token_info='ID'
+[compute_functions] Hoja 'j' con pos 250 y token_info='ID'
+[compute_functions] Hoja 'k' con pos 251 y token_info='ID'
+[compute_functions] Hoja 'l' con pos 252 y token_info='ID'
+[compute_functions] Hoja 'm' con pos 253 y token_info='ID'
+[compute_functions] Hoja 'n' con pos 254 y token_info='ID'
+[compute_functions] Hoja 'o' con pos 255 y token_info='ID'
+[compute_functions] Hoja 'p' con pos 256 y token_info='ID'
+[compute_functions] Hoja 'q' con pos 257 y token_info='ID'
+[compute_functions] Hoja 'r' con pos 258 y token_info='ID'
+[compute_functions] Hoja 's' con pos 259 y token_info='ID'
+[compute_functions] Hoja 't' con pos 260 y token_info='ID'
+[compute_functions] Hoja 'u' con pos 261 y token_info='ID'
+[compute_functions] Hoja 'v' con pos 262 y token_info='ID'
+[compute_functions] Hoja 'w' con pos 263 y token_info='ID'
+[compute_functions] Hoja 'x' con pos 264 y token_info='ID'
+[compute_functions] Hoja 'y' con pos 265 y token_info='ID'
+[compute_functions] Hoja 'z' con pos 266 y token_info='ID'
+[compute_functions] Hoja 'A' con pos 267 y token_info='ID'
+[compute_functions] Hoja 'B' con pos 268 y token_info='ID'
+[compute_functions] Hoja 'C' con pos 269 y token_info='ID'
+[compute_functions] Hoja 'D' con pos 270 y token_info='ID'
+[compute_functions] Hoja 'E' con pos 271 y token_info='ID'
+[compute_functions] Hoja 'F' con pos 272 y token_info='ID'
+[compute_functions] Hoja 'G' con pos 273 y token_info='ID'
+[compute_functions] Hoja 'H' con pos 274 y token_info='ID'
+[compute_functions] Hoja 'I' con pos 275 y token_info='ID'
+[compute_functions] Hoja 'J' con pos 276 y token_info='ID'
+[compute_functions] Hoja 'K' con pos 277 y token_info='ID'
+[compute_functions] Hoja 'L' con pos 278 y token_info='ID'
+[compute_functions] Hoja 'M' con pos 279 y token_info='ID'
+[compute_functions] Hoja 'N' con pos 280 y token_info='ID'
+[compute_functions] Hoja 'O' con pos 281 y token_info='ID'
+[compute_functions] Hoja 'P' con pos 282 y token_info='ID'
+[compute_functions] Hoja 'Q' con pos 283 y token_info='ID'
+[compute_functions] Hoja 'R' con pos 284 y token_info='ID'
+[compute_functions] Hoja 'S' con pos 285 y token_info='ID'
+[compute_functions] Hoja 'T' con pos 286 y token_info='ID'
+[compute_functions] Hoja 'U' con pos 287 y token_info='ID'
+[compute_functions] Hoja 'V' con pos 288 y token_info='ID'
+[compute_functions] Hoja 'W' con pos 289 y token_info='ID'
+[compute_functions] Hoja 'X' con pos 290 y token_info='ID'
+[compute_functions] Hoja 'Y' con pos 291 y token_info='ID'
+[compute_functions] Hoja 'Z' con pos 292 y token_info='ID'
+[compute_functions] Hoja '0' con pos 293 y token_info='ID'
+[compute_functions] Hoja '1' con pos 294 y token_info='ID'
+[compute_functions] Hoja '2' con pos 295 y token_info='ID'
+[compute_functions] Hoja '3' con pos 296 y token_info='ID'
+[compute_functions] Hoja '4' con pos 297 y token_info='ID'
+[compute_functions] Hoja '5' con pos 298 y token_info='ID'
+[compute_functions] Hoja '6' con pos 299 y token_info='ID'
+[compute_functions] Hoja '7' con pos 300 y token_info='ID'
+[compute_functions] Hoja '8' con pos 301 y token_info='ID'
+[compute_functions] Hoja '9' con pos 302 y token_info='ID'
+[compute_functions] Hoja '$' con pos 303 y token_info='ID'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja '0' con pos 304 y token_info='NUMBER'
+[compute_functions] Hoja '1' con pos 305 y token_info='NUMBER'
+[compute_functions] Hoja '2' con pos 306 y token_info='NUMBER'
+[compute_functions] Hoja '3' con pos 307 y token_info='NUMBER'
+[compute_functions] Hoja '4' con pos 308 y token_info='NUMBER'
+[compute_functions] Hoja '5' con pos 309 y token_info='NUMBER'
+[compute_functions] Hoja '6' con pos 310 y token_info='NUMBER'
+[compute_functions] Hoja '7' con pos 311 y token_info='NUMBER'
+[compute_functions] Hoja '8' con pos 312 y token_info='NUMBER'
+[compute_functions] Hoja '9' con pos 313 y token_info='NUMBER'
+[compute_functions] Hoja '0' con pos 314 y token_info='NUMBER'
+[compute_functions] Hoja '1' con pos 315 y token_info='NUMBER'
+[compute_functions] Hoja '2' con pos 316 y token_info='NUMBER'
+[compute_functions] Hoja '3' con pos 317 y token_info='NUMBER'
+[compute_functions] Hoja '4' con pos 318 y token_info='NUMBER'
+[compute_functions] Hoja '5' con pos 319 y token_info='NUMBER'
+[compute_functions] Hoja '6' con pos 320 y token_info='NUMBER'
+[compute_functions] Hoja '7' con pos 321 y token_info='NUMBER'
+[compute_functions] Hoja '8' con pos 322 y token_info='NUMBER'
+[compute_functions] Hoja '9' con pos 323 y token_info='NUMBER'
+[compute_functions] Hoja '$' con pos 324 y token_info='NUMBER'
+[compute_functions] Nodo TOKEN con info: 'None'
+[compute_functions] Hoja ' ' con pos 325 y token_info='WHITESPACE'
+[compute_functions] Hoja '	' con pos 326 y token_info='WHITESPACE'
 [compute_functions] Hoja '
-' con pos 191 y token_info='STRING'
-[compute_functions] Hoja '' con pos 192 y token_info='STRING'
-[compute_functions] Hoja ']' con pos 193 y token_info='STRING'
-[compute_functions] Hoja '*' con pos 194 y token_info='STRING'
-[compute_functions] Hoja '$' con pos 195 y token_info='STRING'
-[compute_functions] Nodo TOKEN con info: 'None'
-[compute_functions] Hoja 'a' con pos 196 y token_info='ID'
-[compute_functions] Hoja 'b' con pos 197 y token_info='ID'
-[compute_functions] Hoja 'c' con pos 198 y token_info='ID'
-[compute_functions] Hoja 'd' con pos 199 y token_info='ID'
-[compute_functions] Hoja 'e' con pos 200 y token_info='ID'
-[compute_functions] Hoja 'f' con pos 201 y token_info='ID'
-[compute_functions] Hoja 'g' con pos 202 y token_info='ID'
-[compute_functions] Hoja 'h' con pos 203 y token_info='ID'
-[compute_functions] Hoja 'i' con pos 204 y token_info='ID'
-[compute_functions] Hoja 'j' con pos 205 y token_info='ID'
-[compute_functions] Hoja 'k' con pos 206 y token_info='ID'
-[compute_functions] Hoja 'l' con pos 207 y token_info='ID'
-[compute_functions] Hoja 'm' con pos 208 y token_info='ID'
-[compute_functions] Hoja 'n' con pos 209 y token_info='ID'
-[compute_functions] Hoja 'o' con pos 210 y token_info='ID'
-[compute_functions] Hoja 'p' con pos 211 y token_info='ID'
-[compute_functions] Hoja 'q' con pos 212 y token_info='ID'
-[compute_functions] Hoja 'r' con pos 213 y token_info='ID'
-[compute_functions] Hoja 's' con pos 214 y token_info='ID'
-[compute_functions] Hoja 't' con pos 215 y token_info='ID'
-[compute_functions] Hoja 'u' con pos 216 y token_info='ID'
-[compute_functions] Hoja 'v' con pos 217 y token_info='ID'
-[compute_functions] Hoja 'w' con pos 218 y token_info='ID'
-[compute_functions] Hoja 'x' con pos 219 y token_info='ID'
-[compute_functions] Hoja 'y' con pos 220 y token_info='ID'
-[compute_functions] Hoja 'z' con pos 221 y token_info='ID'
-[compute_functions] Hoja 'A' con pos 222 y token_info='ID'
-[compute_functions] Hoja 'B' con pos 223 y token_info='ID'
-[compute_functions] Hoja 'C' con pos 224 y token_info='ID'
-[compute_functions] Hoja 'D' con pos 225 y token_info='ID'
-[compute_functions] Hoja 'E' con pos 226 y token_info='ID'
-[compute_functions] Hoja 'F' con pos 227 y token_info='ID'
-[compute_functions] Hoja 'G' con pos 228 y token_info='ID'
-[compute_functions] Hoja 'H' con pos 229 y token_info='ID'
-[compute_functions] Hoja 'I' con pos 230 y token_info='ID'
-[compute_functions] Hoja 'J' con pos 231 y token_info='ID'
-[compute_functions] Hoja 'K' con pos 232 y token_info='ID'
-[compute_functions] Hoja 'L' con pos 233 y token_info='ID'
-[compute_functions] Hoja 'M' con pos 234 y token_info='ID'
-[compute_functions] Hoja 'N' con pos 235 y token_info='ID'
-[compute_functions] Hoja 'O' con pos 236 y token_info='ID'
-[compute_functions] Hoja 'P' con pos 237 y token_info='ID'
-[compute_functions] Hoja 'Q' con pos 238 y token_info='ID'
-[compute_functions] Hoja 'R' con pos 239 y token_info='ID'
-[compute_functions] Hoja 'S' con pos 240 y token_info='ID'
-[compute_functions] Hoja 'T' con pos 241 y token_info='ID'
-[compute_functions] Hoja 'U' con pos 242 y token_info='ID'
-[compute_functions] Hoja 'V' con pos 243 y token_info='ID'
-[compute_functions] Hoja 'W' con pos 244 y token_info='ID'
-[compute_functions] Hoja 'X' con pos 245 y token_info='ID'
-[compute_functions] Hoja 'Y' con pos 246 y token_info='ID'
-[compute_functions] Hoja 'Z' con pos 247 y token_info='ID'
-[compute_functions] Hoja 'a' con pos 248 y token_info='ID'
-[compute_functions] Hoja 'b' con pos 249 y token_info='ID'
-[compute_functions] Hoja 'c' con pos 250 y token_info='ID'
-[compute_functions] Hoja 'd' con pos 251 y token_info='ID'
-[compute_functions] Hoja 'e' con pos 252 y token_info='ID'
-[compute_functions] Hoja 'f' con pos 253 y token_info='ID'
-[compute_functions] Hoja 'g' con pos 254 y token_info='ID'
-[compute_functions] Hoja 'h' con pos 255 y token_info='ID'
-[compute_functions] Hoja 'i' con pos 256 y token_info='ID'
-[compute_functions] Hoja 'j' con pos 257 y token_info='ID'
-[compute_functions] Hoja 'k' con pos 258 y token_info='ID'
-[compute_functions] Hoja 'l' con pos 259 y token_info='ID'
-[compute_functions] Hoja 'm' con pos 260 y token_info='ID'
-[compute_functions] Hoja 'n' con pos 261 y token_info='ID'
-[compute_functions] Hoja 'o' con pos 262 y token_info='ID'
-[compute_functions] Hoja 'p' con pos 263 y token_info='ID'
-[compute_functions] Hoja 'q' con pos 264 y token_info='ID'
-[compute_functions] Hoja 'r' con pos 265 y token_info='ID'
-[compute_functions] Hoja 's' con pos 266 y token_info='ID'
-[compute_functions] Hoja 't' con pos 267 y token_info='ID'
-[compute_functions] Hoja 'u' con pos 268 y token_info='ID'
-[compute_functions] Hoja 'v' con pos 269 y token_info='ID'
-[compute_functions] Hoja 'w' con pos 270 y token_info='ID'
-[compute_functions] Hoja 'x' con pos 271 y token_info='ID'
-[compute_functions] Hoja 'y' con pos 272 y token_info='ID'
-[compute_functions] Hoja 'z' con pos 273 y token_info='ID'
-[compute_functions] Hoja 'A' con pos 274 y token_info='ID'
-[compute_functions] Hoja 'B' con pos 275 y token_info='ID'
-[compute_functions] Hoja 'C' con pos 276 y token_info='ID'
-[compute_functions] Hoja 'D' con pos 277 y token_info='ID'
-[compute_functions] Hoja 'E' con pos 278 y token_info='ID'
-[compute_functions] Hoja 'F' con pos 279 y token_info='ID'
-[compute_functions] Hoja 'G' con pos 280 y token_info='ID'
-[compute_functions] Hoja 'H' con pos 281 y token_info='ID'
-[compute_functions] Hoja 'I' con pos 282 y token_info='ID'
-[compute_functions] Hoja 'J' con pos 283 y token_info='ID'
-[compute_functions] Hoja 'K' con pos 284 y token_info='ID'
-[compute_functions] Hoja 'L' con pos 285 y token_info='ID'
-[compute_functions] Hoja 'M' con pos 286 y token_info='ID'
-[compute_functions] Hoja 'N' con pos 287 y token_info='ID'
-[compute_functions] Hoja 'O' con pos 288 y token_info='ID'
-[compute_functions] Hoja 'P' con pos 289 y token_info='ID'
-[compute_functions] Hoja 'Q' con pos 290 y token_info='ID'
-[compute_functions] Hoja 'R' con pos 291 y token_info='ID'
-[compute_functions] Hoja 'S' con pos 292 y token_info='ID'
-[compute_functions] Hoja 'T' con pos 293 y token_info='ID'
-[compute_functions] Hoja 'U' con pos 294 y token_info='ID'
-[compute_functions] Hoja 'V' con pos 295 y token_info='ID'
-[compute_functions] Hoja 'W' con pos 296 y token_info='ID'
-[compute_functions] Hoja 'X' con pos 297 y token_info='ID'
-[compute_functions] Hoja 'Y' con pos 298 y token_info='ID'
-[compute_functions] Hoja 'Z' con pos 299 y token_info='ID'
-[compute_functions] Hoja '0' con pos 300 y token_info='ID'
-[compute_functions] Hoja '1' con pos 301 y token_info='ID'
-[compute_functions] Hoja '2' con pos 302 y token_info='ID'
-[compute_functions] Hoja '3' con pos 303 y token_info='ID'
-[compute_functions] Hoja '4' con pos 304 y token_info='ID'
-[compute_functions] Hoja '5' con pos 305 y token_info='ID'
-[compute_functions] Hoja '6' con pos 306 y token_info='ID'
-[compute_functions] Hoja '7' con pos 307 y token_info='ID'
-[compute_functions] Hoja '8' con pos 308 y token_info='ID'
-[compute_functions] Hoja '9' con pos 309 y token_info='ID'
-[compute_functions] Hoja '$' con pos 310 y token_info='ID'
-[compute_functions] Nodo TOKEN con info: 'None'
-[compute_functions] Hoja '0' con pos 311 y token_info='NUMBER'
-[compute_functions] Hoja '1' con pos 312 y token_info='NUMBER'
-[compute_functions] Hoja '2' con pos 313 y token_info='NUMBER'
-[compute_functions] Hoja '3' con pos 314 y token_info='NUMBER'
-[compute_functions] Hoja '4' con pos 315 y token_info='NUMBER'
-[compute_functions] Hoja '5' con pos 316 y token_info='NUMBER'
-[compute_functions] Hoja '6' con pos 317 y token_info='NUMBER'
-[compute_functions] Hoja '7' con pos 318 y token_info='NUMBER'
-[compute_functions] Hoja '8' con pos 319 y token_info='NUMBER'
-[compute_functions] Hoja '9' con pos 320 y token_info='NUMBER'
-[compute_functions] Hoja '0' con pos 321 y token_info='NUMBER'
-[compute_functions] Hoja '1' con pos 322 y token_info='NUMBER'
-[compute_functions] Hoja '2' con pos 323 y token_info='NUMBER'
-[compute_functions] Hoja '3' con pos 324 y token_info='NUMBER'
-[compute_functions] Hoja '4' con pos 325 y token_info='NUMBER'
-[compute_functions] Hoja '5' con pos 326 y token_info='NUMBER'
-[compute_functions] Hoja '6' con pos 327 y token_info='NUMBER'
-[compute_functions] Hoja '7' con pos 328 y token_info='NUMBER'
-[compute_functions] Hoja '8' con pos 329 y token_info='NUMBER'
-[compute_functions] Hoja '9' con pos 330 y token_info='NUMBER'
-[compute_functions] Hoja '$' con pos 331 y token_info='NUMBER'
-[compute_functions] Nodo TOKEN con info: 'None'
-[compute_functions] Hoja ' ' con pos 332 y token_info='WHITESPACE'
-[compute_functions] Hoja '	' con pos 333 y token_info='WHITESPACE'
-[compute_functions] Hoja '
-' con pos 334 y token_info='WHITESPACE'
-[compute_functions] Hoja '' con pos 335 y token_info='WHITESPACE'
-[compute_functions] Hoja '$' con pos 336 y token_info='WHITESPACE'
+' con pos 327 y token_info='WHITESPACE'
+[compute_functions] Hoja '' con pos 328 y token_info='WHITESPACE'
+[compute_functions] Hoja '$' con pos 329 y token_info='WHITESPACE'
 [compute_functions] Nodo TOKEN con info: 'None'
 [build_dfa] Estado 24 es aceptante para 'ID'
 [build_dfa] Estado 23 es aceptante para 'WHITESPACE'
 [build_dfa] Estado 25 es aceptante para 'COMMENT'
 [build_dfa] Estado 21 es aceptante para 'RBRACKET'
-[build_dfa] Estado 20 es aceptante para 'NUMBER'
-[build_dfa] Estado 19 es aceptante para 'LBRACKET'
-[build_dfa] Estado 30 es aceptante para 'STRING'
-[build_dfa] Estado 18 es aceptante para 'RBRACE'
-[build_dfa] Estado 17 es aceptante para 'LBRACE'
-[build_dfa] Estado 16 es aceptante para 'COMMA'
+[build_dfa] Estado 20 es aceptante para 'LBRACKET'
+[build_dfa] Estado 19 es aceptante para 'RBRACE'
+[build_dfa] Estado 18 es aceptante para 'LBRACE'
+[build_dfa] Estado 17 es aceptante para 'COMMA'
+[build_dfa] Estado 16 es aceptante para 'NUMBER'
 [build_dfa] Estado 15 es aceptante para 'SEMICOLON'
 [build_dfa] Estado 14 es aceptante para 'COLON'
 [build_dfa] Estado 13 es aceptante para 'RPAREN'
@@ -767,23 +744,23 @@ TOKEN INFO ANTES DE ASIGNAR:  WHITESPACE
 [build_dfa] Estado 9 es aceptante para 'MINUS'
 [build_dfa] Estado 8 es aceptante para 'PLUS'
 [build_dfa] Estado 7 es aceptante para 'GREATER'
-[build_dfa] Estado 31 es aceptante para 'GREATEREQ'
+[build_dfa] Estado 26 es aceptante para 'GREATEREQ'
 [build_dfa] Estado 6 es aceptante para 'LESS'
-[build_dfa] Estado 32 es aceptante para 'LESSEQ'
-[build_dfa] Estado 33 es aceptante para 'NOTEQUAL'
+[build_dfa] Estado 27 es aceptante para 'LESSEQ'
+[build_dfa] Estado 28 es aceptante para 'NOTEQUAL'
 [build_dfa] Estado 4 es aceptante para 'ASSIGN'
-[build_dfa] Estado 34 es aceptante para 'EQUALS'
+[build_dfa] Estado 29 es aceptante para 'EQUALS'
 [build_dfa] Estado 3 es aceptante para 'ID'
-[build_dfa] Estado 35 es aceptante para 'ID'
-[build_dfa] Estado 36 es aceptante para 'ID'
-[build_dfa] Estado 37 es aceptante para 'ID'
-[build_dfa] Estado 38 es aceptante para 'WHILE'
+[build_dfa] Estado 30 es aceptante para 'ID'
+[build_dfa] Estado 31 es aceptante para 'ID'
+[build_dfa] Estado 32 es aceptante para 'ID'
+[build_dfa] Estado 33 es aceptante para 'WHILE'
 [build_dfa] Estado 2 es aceptante para 'ID'
-[build_dfa] Estado 39 es aceptante para 'ID'
-[build_dfa] Estado 40 es aceptante para 'ID'
-[build_dfa] Estado 41 es aceptante para 'ELSE'
+[build_dfa] Estado 34 es aceptante para 'ID'
+[build_dfa] Estado 35 es aceptante para 'ID'
+[build_dfa] Estado 36 es aceptante para 'ELSE'
 [build_dfa] Estado 1 es aceptante para 'ID'
-[build_dfa] Estado 42 es aceptante para 'IF'
+[build_dfa] Estado 37 es aceptante para 'IF'
 
 [main] Iniciando minimización del AFD...
 [main] Minimización completada.
@@ -793,12 +770,11 @@ TOKEN INFO ANTES DE ASIGNAR:  WHITESPACE
   Estado 26 -> WHITESPACE
   Estado 27 -> COMMENT
   Estado 25 -> RBRACKET
-  Estado 24 -> NUMBER
-  Estado 23 -> LBRACKET
-  Estado 28 -> STRING
-  Estado 22 -> RBRACE
-  Estado 21 -> LBRACE
-  Estado 20 -> COMMA
+  Estado 24 -> LBRACKET
+  Estado 23 -> RBRACE
+  Estado 22 -> LBRACE
+  Estado 21 -> COMMA
+  Estado 20 -> NUMBER
   Estado 19 -> SEMICOLON
   Estado 18 -> COLON
   Estado 17 -> RPAREN
@@ -808,61 +784,248 @@ TOKEN INFO ANTES DE ASIGNAR:  WHITESPACE
   Estado 13 -> MINUS
   Estado 12 -> PLUS
   Estado 11 -> GREATER
-  Estado 29 -> GREATEREQ
+  Estado 28 -> GREATEREQ
   Estado 10 -> LESS
-  Estado 30 -> LESSEQ
-  Estado 31 -> NOTEQUAL
+  Estado 29 -> LESSEQ
+  Estado 30 -> NOTEQUAL
   Estado 9 -> ASSIGN
-  Estado 32 -> EQUALS
+  Estado 31 -> EQUALS
   Estado 4 -> ID
   Estado 3 -> ID
   Estado 2 -> ID
   Estado 8 -> ID
-  Estado 33 -> WHILE
+  Estado 32 -> WHILE
   Estado 5 -> ID
   Estado 1 -> ID
   Estado 7 -> ID
-  Estado 34 -> ELSE
+  Estado 33 -> ELSE
   Estado 0 -> ID
-  Estado 35 -> IF
+  Estado 34 -> IF
 
-[main] Contenido del archivo 'test2.py':
-# Simulacion de codigo fuente
-if variable1 >= 100:
-    {
-        while count != 0:
-            {
-                result = result + inputList[ count ];
-                count = count + 1;
-            }
-    }
-else:
-    {
-        error_code = 500;
-    }
-
-# Operaciones compuestas
-total = subtotal + impuestos * (ajuste - descuento) / tarifa;
-
-# Prueba con estructuras anidadas
-if (x > 0):
+[main] Contenido procesado con header/trailer:
+# ojala que funcione
+if(x1 >= 100):
 {
-    while (x != y):
+    while(counter1 != 0)
     {
-        x = x - 1;
-        y = y + 1;
+        result = result + value123;
+        temp = (x1 - y1) * 5 / 3;
+        array[10] = valueList[ index ];
     }
 }
+else:
+{
+    # Comentario dentro de bloque else
+    errorCode = 404;
+}
+
+finalResult = result1 + temp2 * (value - offset) / scale;
 
 
 
-[main] Contenido raw (repr): '# Simulacion de codigo fuente\r\nif variable1 >= 100:\r\n    {\r\n        while count != 0:\r\n            {\r\n                result = result + inputList[ count ];\r\n                count = count + 1;\r\n            }\r\n    }\r\nelse:\r\n    {\r\n        error_code = 500;\r\n    }\r\n\r\n# Operaciones compuestas\r\ntotal = subtotal + impuestos * (ajuste - descuento) / tarifa;\r\n\r\n# Prueba con estructuras anidadas\r\nif (x > 0):\r\n{\r\n    while (x != y):\r\n    {\r\n        x = x - 1;\r\n        y = y + 1;\r\n    }\r\n}\r\n'
+[main] Contenido raw (repr): '# ojala que funcione\r\nif(x1 >= 100):\r\n{\r\n    while(counter1 != 0)\r\n    {\r\n        result = result + value123;\r\n        temp = (x1 - y1) * 5 / 3;\r\n        array[10] = valueList[ index ];\r\n    }\r\n}\r\nelse:\r\n{\r\n    # Comentario dentro de bloque else\r\n    errorCode = 404;\r\n}\r\n\r\nfinalResult = result1 + temp2 * (value - offset) / scale;\r\n'
 
-[Error léxico] Ha ocurrido un error en la línea 12, columna 14:
+Tokens reconocidos:
+  COMMENT: '# ojala que funcione'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  IF: 'if'
+  LPAREN: '('
+  ID: 'x1'
+  WHITESPACE: '' ''
+  GREATEREQ: '>='
+  WHITESPACE: '' ''
+  NUMBER: '100'
+  RPAREN: ')'
+  COLON: ':'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  LBRACE: '{'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHILE: 'while'
+  LPAREN: '('
+  ID: 'counter1'
+  WHITESPACE: '' ''
+  NOTEQUAL: '!='
+  WHITESPACE: '' ''
+  NUMBER: '0'
+  RPAREN: ')'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  LBRACE: '{'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  ID: 'result'
+  WHITESPACE: '' ''
+  ASSIGN: '='
+  WHITESPACE: '' ''
+  ID: 'result'
+  WHITESPACE: '' ''
+  PLUS: '+'
+  WHITESPACE: '' ''
+  ID: 'value123'
+  SEMICOLON: ';'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  ID: 'temp'
+  WHITESPACE: '' ''
+  ASSIGN: '='
+  WHITESPACE: '' ''
+  LPAREN: '('
+  ID: 'x1'
+  WHITESPACE: '' ''
+  MINUS: '-'
+  WHITESPACE: '' ''
+  ID: 'y1'
+  RPAREN: ')'
+  WHITESPACE: '' ''
+  TIMES: '*'
+  WHITESPACE: '' ''
+  NUMBER: '5'
+  WHITESPACE: '' ''
+  DIVIDE: '/'
+  WHITESPACE: '' ''
+  NUMBER: '3'
+  SEMICOLON: ';'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  ID: 'array'
+  LBRACKET: '['
+  NUMBER: '10'
+  RBRACKET: ']'
+  WHITESPACE: '' ''
+  ASSIGN: '='
+  WHITESPACE: '' ''
+  ID: 'valueList'
+  LBRACKET: '['
+  WHITESPACE: '' ''
+  ID: 'index'
+  WHITESPACE: '' ''
+  RBRACKET: ']'
+  SEMICOLON: ';'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  RBRACE: '}'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  RBRACE: '}'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  ELSE: 'else'
+  COLON: ':'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  LBRACE: '{'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  COMMENT: '# Comentario dentro de bloque else'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  WHITESPACE: '' ''
+  ID: 'errorCode'
+  WHITESPACE: '' ''
+  ASSIGN: '='
+  WHITESPACE: '' ''
+  NUMBER: '404'
+  SEMICOLON: ';'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  RBRACE: '}'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
+  ID: 'finalResult'
+  WHITESPACE: '' ''
+  ASSIGN: '='
+  WHITESPACE: '' ''
+  ID: 'result1'
+  WHITESPACE: '' ''
+  PLUS: '+'
+  WHITESPACE: '' ''
+  ID: 'temp2'
+  WHITESPACE: '' ''
+  TIMES: '*'
+  WHITESPACE: '' ''
+  LPAREN: '('
+  ID: 'value'
+  WHITESPACE: '' ''
+  MINUS: '-'
+  WHITESPACE: '' ''
+  ID: 'offset'
+  RPAREN: ')'
+  WHITESPACE: '' ''
+  DIVIDE: '/'
+  WHITESPACE: '' ''
+  ID: 'scale'
+  SEMICOLON: ';'
+  WHITESPACE: ''\r''
+  WHITESPACE: ''\n''
 
- Línea actual:
-          error_code = 500;
-               ^
-  Token no reconocido: '_'
+Tabla de símbolos generada:
 
-  El carácter no forma parte de ningún token definido en la gramática.
+Tabla de Símbolos:
+ID    Nombre          Tipo léxico     Líneas
+--------------------------------------------------
+1     x1              ID              2, 7
+2     counter1        ID              4
+3     result          ID              6
+4     value123        ID              6
+5     temp            ID              7
+6     y1              ID              7
+7     array           ID              8
+8     valueList       ID              8
+9     index           ID              8
+10    errorCode       ID              14
+11    finalResult     ID              17
+12    result1         ID              17
+13    temp2           ID              17
+14    value           ID              17
+15    offset          ID              17
+16    scale           ID              17
+
+[main] Archivo 'lexer.txt' generado con header y trailer.

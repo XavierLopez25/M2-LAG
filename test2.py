@@ -9,7 +9,7 @@ if variable1 >= 100:
     }
 else:
     {
-        error_code = 500;
+        error = 500;
     }
 
 # Operaciones compuestas
