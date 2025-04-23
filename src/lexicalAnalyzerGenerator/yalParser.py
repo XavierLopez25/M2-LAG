@@ -20,53 +20,54 @@ def parse_yalex(filepath: str):
     - Claves: Expresiones regulares (ya reemplazando `let`).
     - Valores: Nombre del token asociado.
     """
-    lets = {}  # Diccionario para almacenar las variables let
-    rules = {}  # Diccionario para almacenar las reglas finales
+    lets, rules = {}, {}
+    header_lines, rule_lines, trailer_lines = [], [], []
 
-    header = ""
-    trailer = ""
+    with open(filepath, 'r', encoding='utf-8') as f:
+        raw_lines = f.readlines()
 
-    with open(filepath, 'r', encoding='utf-8') as file:
-        lines = file.read()
+    phase = 'header'
+    for line in raw_lines:
+        stripped = line.strip()
+        if phase == 'header':
+            if stripped.startswith('rule tokens'):
+                phase = 'rules'
+            else:
+                header_lines.append(line)
+        elif phase == 'rules':
+            # si encontramos un bloque sin 'return', quizá empieza el trailer
+            if stripped.startswith('{') and 'return' not in stripped and not stripped.endswith('return'):
+                phase = 'trailer'
+                trailer_lines.append(line)
+            else:
+                rule_lines.append(line)
+        else:  # trailer
+            trailer_lines.append(line)
 
-   # Buscar todos los bloques { ... } (no confundir con tokens de regex)
-    all_blocks = re.findall(r'\{[^{}]*\}', lines, re.DOTALL)
+    # 1) extrae las variables let
+    for ln in header_lines:
+        m = re.match(r"let (\w+)\s*=\s*(.+)", ln)
+        if m:
+            ident, rex = m.groups()
+            lets[ident] = rex
 
-    if all_blocks:
-        header = all_blocks[0]
-        trailer = all_blocks[-1] if len(all_blocks) > 1 else ""
+    # 2) expande lets
+    def expand_lets(expr):
+        while any(ident in expr for ident in lets):
+            for ident, val in lets.items():
+                expr = expr.replace(ident, f"({val})")
+        return expr
 
-    # Eliminar bloques de header y trailer del contenido
-    cleaned_content = lines.replace(header, '', 1)
-    if trailer and trailer != header:
-        cleaned_content = cleaned_content.replace(trailer, '', 1)
-
-    lines = [line.strip() for line in cleaned_content.splitlines() if line.strip()]
-    mode = None
-    for line in lines:
-        if line.startswith('let'):
-            # Extraer variables `let`
-            match = re.match(r"let (\w+) = (.+)", line)
-            if match:
-                ident, regex = match.groups()
-                lets[ident] = regex
-        elif line.startswith('rule tokens'):
-            mode = 'rules'
-        elif mode == 'rules' and '{' in line:
-            # Extraer reglas de tokens
-            match = re.match(r'(.*?)\s*\{\s*return\s*(\w+)\s*\}', line)
-            if match:
-                regex, token = match.groups()
-
-                # Expandir `let` de forma completamente recursiva
-                regex = expand_lets(regex, lets)
-
-                # Guardar la regla en el diccionario con regex ya expandida
-                regex = codecs.decode(regex, 'unicode_escape')
-                rules[regex] = token
+    # 3) parsea reglas
+    for ln in rule_lines:
+        m = re.match(r'(.*?)\s*\{\s*return\s+(\w+)\s*\}', ln)
+        if m:
+            raw_regex, token = m.groups()
+            raw_regex = expand_lets(raw_regex.strip())
+            rules[codecs.decode(raw_regex, 'unicode_escape')] = token
 
     return {
         'rules': rules,
-        'header': header.strip(),
-        'trailer': trailer.strip()
+        'header':  "".join(header_lines).strip(),
+        'trailer': "".join(trailer_lines).strip()
     }
