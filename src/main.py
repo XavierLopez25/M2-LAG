@@ -10,6 +10,7 @@ from dfaGenerator.utils.visualizeLexeme import visualize_lexeme
 import re
 import sys
 import codecs
+import textwrap
 
 def is_escaped(s: str, pos: int) -> bool:
     """
@@ -161,16 +162,15 @@ def combine_rules(rules):
     return combined_regex, token_priority
 
 def remove_braces_and_dedent(block: str) -> str:
-    import textwrap
-    match = re.match(r'^\{(.*)\}$', block.strip(), re.DOTALL)
+    match = re.search(r'\{(.*?)\}', block, re.DOTALL)
     if match:
         content = match.group(1)
         return textwrap.dedent(content).strip()
-    return block.strip()
+    return ""
 
 def main():
     yalex_file = "hard_lex.yal"
-    archivo_a_procesar = "teste1.txt"
+    archivo_a_procesar = "teste.py"
 
     original_stdout = sys.stdout
     with open("console_output.txt", "w", encoding="utf-8") as f:
@@ -252,6 +252,9 @@ def main():
 
             header_clean = remove_braces_and_dedent(header)
             trailer_clean = remove_braces_and_dedent(trailer)
+
+            print(f"\nHeader limpio:\n{header_clean}")
+            print(f"\nTrailer limpio:\n{trailer_clean}")
 
             if header or trailer:
                     with open("lexer.txt", "w", encoding="utf-8") as out:

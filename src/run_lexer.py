@@ -7,9 +7,13 @@ from symbolTable.symbolTableGenerator import SymbolTable
 from lexicalAnalyzerGenerator.readFile import read_file
 from syntaxChecker.errorChecker import report_lexical_error
 from dfaGenerator.utils.visualizeLexeme import visualize_lexeme
+from dfaGenerator.utils.graphAFD import graph_dfa
+from dfaGenerator.utils.graphMinimizedAFD import graph_minimized_dfa    
+
 import re
 import sys
 import codecs
+import textwrap
 
 def is_escaped(s: str, pos: int) -> bool:
     """
@@ -160,12 +164,11 @@ def combine_rules(rules):
     return combined_regex, token_priority
 
 def remove_braces_and_dedent(block: str) -> str:
-    import textwrap
-    match = re.match(r'^\{(.*)\}$', block.strip(), re.DOTALL)
+    match = re.search(r'\{(.*?)\}', block, re.DOTALL)
     if match:
         content = match.group(1)
         return textwrap.dedent(content).strip()
-    return block.strip()
+    return ""
 
 def run_lexer(yalex_file, archivo_a_procesar):
     yalex_file = "hard_lex.yal"
@@ -203,6 +206,8 @@ def run_lexer(yalex_file, archivo_a_procesar):
 
     accepting_state_to_token = accepting_states
 
+    graph_dfa(dfa_states, transitions, accepting_states)
+
     print("\n[main] Iniciando minimización del AFD...")
     min_initial, min_transitions, min_accepting_set, state_to_block, blocks = improve_minimize_dfa(
         converted_transitions,
@@ -212,6 +217,9 @@ def run_lexer(yalex_file, archivo_a_procesar):
     print("[main] Minimización completada.")
     min_accepting = {}
     block_to_tokens = {}
+
+    graph_minimized_dfa(min_initial, min_transitions, min_accepting)
+
 
     # Recolectar todos los tokens aceptantes por bloque
     for old_state, token in accepting_state_to_token.items():
